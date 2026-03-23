@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>12-Week Training & Nutrition Checklist</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #0f766e;
+      --accent-light: #d1fae5;
+      --border: #e5e7eb;
+      --shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 64px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #134e4a, #0f766e);
+      color: white;
+      border-radius: 18px;
+      padding: 28px 26px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+      line-height: 1.15;
+    }
+    .hero p {
+      margin: 0 0 14px;
+      max-width: 760px;
+      opacity: 0.95;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .primary {
+      background: white;
+      color: var(--accent);
+    }
+    .secondary {
+      background: rgba(255,255,255,0.16);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.28);
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    }
+    .summary-card .label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+    .summary-card .value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .week-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .week-header {
+      padding: 16px 18px;
+      background: #f0fdfa;
+      border-bottom: 1px solid var(--border);
+    }
+    .week-header h2 {
+      margin: 0 0 4px;
+      font-size: 1.15rem;
+      color: #134e4a;
+    }
+    .week-range {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .days-list {
+      padding: 8px 0;
+    }
+    .day-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+    }
+    .day-row:first-child {
+      border-top: none;
+    }
+    .day-date {
+      min-width: 240px;
+    }
+    .day-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .date-text {
+      color: var(--muted);
+      font-size: 0.94rem;
+      margin-top: 2px;
+    }
+    .checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      justify-content: flex-end;
+    }
+    .check-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      min-width: 140px;
+      user-select: none;
+    }
+    .check-item span {
+      font-weight: 600;
+    }
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+    .footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    @media (max-width: 700px) {
+      .day-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .checks {
+        justify-content: flex-start;
+      }
+      .day-date {
+        min-width: auto;
+      }
+      .check-item {
+        min-width: 132px;
+      }
+    }
+    @media print {
+      body { background: white; }
+      .wrap { max-width: none; padding: 0; }
+      .hero { box-shadow: none; }
+      button { display: none; }
+      .week-card { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>12-Week Training & Nutrition Checklist</h1>
+      <p>
+        A simple list-style calendar for the next 12 weeks. Check off each day as you complete your
+        nutrition target and training target. Your checkmarks are saved automatically in your browser.
+      </p>
+      <div class="hero-actions">
+        <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+        <button class="secondary" onclick="resetAll()">Reset all checkboxes</button>
+      </div>
+    </section>
+
+    <section class="summary">
+      <div class="summary-card">
+        <div class="label">Nutrition completed</div>
+        <div class="value" id="nutritionCount">0 / 84</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Training completed</div>
+        <div class="value" id="trainingCount">0 / 84</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Total boxes checked</div>
+        <div class="value" id="totalCount">0 / 168</div>
+      </div>
+    </section>
+
+    <div id="weeksContainer"></div>
+
+    <p class="footer">
+      Progress is saved in local browser storage for this site on this device. Add it to your iPhone Home Screen in Safari for an app-like experience.
+    </p>
+  </div>
+
+  <script>
+    const STORAGE_PREFIX = "crossfit-checklist-12wk-";
+    const TOTAL_DAYS = 84;
+
+    function startOfMonday(d) {
+      const copy = new Date(d);
+      copy.setHours(0,0,0,0);
+      const day = copy.getDay();
+      const mondayOffset = (day + 6) % 7;
+      copy.setDate(copy.getDate() - mondayOffset);
+      return copy;
+    }
+
+    function formatWeekRange(start, end) {
+      const short = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+      const longEnd = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
+      return `${short.format(start)} – ${longEnd.format(end)}`;
+    }
+
+    function formatDayName(d) {
+      return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(d);
+    }
+
+    function formatLongDate(d) {
+      return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(d);
+    }
+
+    function isoDate(d) {
+      return d.toISOString().slice(0, 10);
+    }
+
+    function buildCalendar() {
+      const today = new Date();
+      const monday = startOfMonday(today);
+      const container = document.getElementById("weeksContainer");
+      container.innerHTML = "";
+
+      for (let week = 0; week < 12; week++) {
+        const weekStart = new Date(monday);
+        weekStart.setDate(monday.getDate() + week * 7);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+
+        const card = document.createElement("section");
+        card.className = "week-card";
+
+        const header = document.createElement("div");
+        header.className = "week-header";
+        header.innerHTML = `
+          <h2>Week ${week + 1}</h2>
+          <div class="week-range">${formatWeekRange(weekStart, weekEnd)}</div>
+        `;
+        card.appendChild(header);
+
+        const daysList = document.createElement("div");
+        daysList.className = "days-list";
+
+        for (let day = 0; day < 7; day++) {
+          const current = new Date(weekStart);
+          current.setDate(weekStart.getDate() + day);
+          const id = isoDate(current);
+
+          const row = document.createElement("div");
+          row.className = "day-row";
+          row.innerHTML = `
+            <div class="day-date">
+              <div class="day-name">${formatDayName(current)}</div>
+              <div class="date-text">${formatLongDate(current)}</div>
+            </div>
+            <div class="checks">
+              <label class="check-item">
+                <input type="checkbox" data-key="${id}-nutrition">
+                <span>Nutrition</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" data-key="${id}-training">
+                <span>Training</span>
+              </label>
+            </div>
+          `;
+          daysList.appendChild(row);
+        }
+
+        card.appendChild(daysList);
+        container.appendChild(card);
+      }
+    }
+
+    function getCheckboxes() {
+      return Array.from(document.querySelectorAll('input[type="checkbox"]'));
+    }
+
+    function loadState() {
+      getCheckboxes().forEach(cb => {
+        const key = STORAGE_PREFIX + cb.dataset.key;
+        cb.checked = localStorage.getItem(key) === "true";
+      });
+      updateCounts();
+    }
+
+    function saveCheckbox(cb) {
+      const key = STORAGE_PREFIX + cb.dataset.key;
+      localStorage.setItem(key, cb.checked ? "true" : "false");
+      updateCounts();
+    }
+
+    function updateCounts() {
+      const checkboxes = getCheckboxes();
+      const nutrition = checkboxes.filter(cb => cb.dataset.key.endsWith("-nutrition") && cb.checked).length;
+      const training = checkboxes.filter(cb => cb.dataset.key.endsWith("-training") && cb.checked).length;
+      const total = checkboxes.filter(cb => cb.checked).length;
+
+      document.getElementById("nutritionCount").textContent = `${nutrition} / ${TOTAL_DAYS}`;
+      document.getElementById("trainingCount").textContent = `${training} / ${TOTAL_DAYS}`;
+      document.getElementById("totalCount").textContent = `${total} / ${TOTAL_DAYS * 2}`;
+    }
+
+    function attachEvents() {
+      getCheckboxes().forEach(cb => {
+        cb.addEventListener("change", () => saveCheckbox(cb));
+      });
+    }
+
+    function resetAll() {
+      const ok = confirm("Reset every checkbox for the full 12 weeks?");
+      if (!ok) return;
+      getCheckboxes().forEach(cb => {
+        cb.checked = false;
+        localStorage.removeItem(STORAGE_PREFIX + cb.dataset.key);
+      });
+      updateCounts();
+    }
+
+    buildCalendar();
+    attachEvents();
+    loadState();
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
