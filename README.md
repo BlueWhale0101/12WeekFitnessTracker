@@ -1,43 +1,37 @@
-# Hosted iPhone Web App: 12-Week Training & Nutrition Checklist
+# Advanced CrossFit Checklist Web App
 
-This folder is ready to deploy as a small hosted web app.
+This bundle is ready for GitHub Pages, Netlify, or Cloudflare Pages.
 
-## Files
+## Included
 - `index.html` — the full app
-- `manifest.webmanifest` — allows app-like install behavior
-- `service-worker.js` — lightweight offline caching
+- `manifest.webmanifest` — install metadata for Home Screen web app behavior
+- `service-worker.js` — basic offline caching
 - `icon.svg` — simple app icon
 - `README.md` — deployment steps
 
-## Easiest deployment options
+## Features
+- Full 12-week calendar view with Week 1 through Week 12
+- Daily Nutrition checkbox
+- Daily CrossFit class checkbox
+- Weekly workout checklist based on the 12-week training plan
+- Weekly weigh-in input
+- Weekly notes box
+- Local persistence in the browser
 
-### GitHub Pages
+## GitHub Pages steps
 1. Create a new GitHub repository.
-2. Upload all files from this folder to the root of the repo.
-3. In GitHub, go to **Settings > Pages**.
+2. Upload all files from this folder to the repo root.
+3. In GitHub, open **Settings > Pages**.
 4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the `main` branch and `/root`.
-6. Save. GitHub will publish the site.
-
-### Netlify
-1. Create a new site on Netlify.
-2. Drag this folder into Netlify Drop, or connect a repo.
-3. The site will publish automatically.
-
-### Cloudflare Pages
-1. Create a new Pages project.
-2. Upload this folder or connect the repo.
-3. Build command is not needed.
-4. Output directory can stay blank or `/`.
+5. Pick the `main` branch and the `/root` folder.
+6. Save and wait for the published URL.
 
 ## Use on iPhone
-1. Open the live site in Safari.
+1. Open the live URL in Safari.
 2. Tap **Share**.
 3. Tap **Add to Home Screen**.
-4. Turn on **Open as Web App** if prompted.
-5. Launch it from your Home Screen.
+4. Launch from the Home Screen for an app-like experience.
 
 ## Notes
-- Checkbox state is saved in local browser storage on that iPhone.
-- The app calculates 12 weeks starting from the Monday of the current week when opened.
-- Offline support is basic and meant for convenience after the first load.
+- Progress is saved per browser/device using local storage.
+- If you want cloud sync later, this front end can be connected to a lightweight backend.

@@ -6,13 +6,15 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="96" fill="url(#g)"/>
-  <rect x="96" y="112" width="320" height="288" rx="32" fill="white" opacity="0.95"/>
-  <rect x="128" y="168" width="36" height="36" rx="8" fill="none" stroke="#0f766e" stroke-width="14"/>
-  <path d="M136 188 l12 12 l24 -28" fill="none" stroke="#0f766e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="188" y="174" width="184" height="20" rx="10" fill="#cbd5e1"/>
-  <rect x="128" y="240" width="36" height="36" rx="8" fill="none" stroke="#0f766e" stroke-width="14"/>
-  <path d="M136 260 l12 12 l24 -28" fill="none" stroke="#0f766e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="188" y="246" width="184" height="20" rx="10" fill="#cbd5e1"/>
-  <rect x="128" y="312" width="36" height="36" rx="8" fill="none" stroke="#0f766e" stroke-width="14"/>
-  <rect x="188" y="318" width="184" height="20" rx="10" fill="#cbd5e1"/>
+  <rect x="88" y="96" width="336" height="320" rx="36" fill="white" opacity="0.96"/>
+  <rect x="126" y="144" width="34" height="34" rx="8" fill="none" stroke="#0f766e" stroke-width="12"/>
+  <path d="M133 161 l10 10 l20 -24" fill="none" stroke="#0f766e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="186" y="150" width="188" height="18" rx="9" fill="#cbd5e1"/>
+  <rect x="126" y="212" width="34" height="34" rx="8" fill="none" stroke="#0f766e" stroke-width="12"/>
+  <path d="M133 229 l10 10 l20 -24" fill="none" stroke="#0f766e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="186" y="218" width="188" height="18" rx="9" fill="#cbd5e1"/>
+  <rect x="126" y="280" width="34" height="34" rx="8" fill="none" stroke="#0f766e" stroke-width="12"/>
+  <rect x="186" y="286" width="188" height="18" rx="9" fill="#cbd5e1"/>
+  <rect x="126" y="348" width="34" height="34" rx="8" fill="none" stroke="#0f766e" stroke-width="12"/>
+  <rect x="186" y="354" width="188" height="18" rx="9" fill="#cbd5e1"/>
 </svg>

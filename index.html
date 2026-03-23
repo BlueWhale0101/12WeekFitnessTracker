@@ -4,367 +4,280 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f766e" />
-  <title>12-Week Training & Nutrition Checklist</title>
-  <link rel="manifest" href="manifest.webmanifest">
+  <title>12-Week CrossFit Performance Checklist</title>
+  <link rel="manifest" href="manifest.webmanifest" />
   <style>
     :root {
-      --bg: #f7f7f5;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --accent: #0f766e;
-      --accent-light: #d1fae5;
-      --border: #e5e7eb;
-      --shadow: 0 8px 24px rgba(0,0,0,0.06);
+      --bg: #f7f7f5; --card: #ffffff; --text: #1f2937; --muted: #6b7280;
+      --accent: #0f766e; --accent-dark: #134e4a; --accent-light: #d1fae5;
+      --border: #e5e7eb; --shadow: 0 8px 24px rgba(0,0,0,0.06);
+      --warning-bg: #fffbeb; --warning-text: #92400e;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.45; }
+    .wrap { max-width:1100px; margin:0 auto; padding:28px 18px 64px; }
+    .hero { background:linear-gradient(135deg,var(--accent-dark),var(--accent)); color:white; border-radius:20px; padding:28px 26px; margin-bottom:22px; box-shadow:var(--shadow); }
+    .hero h1 { margin:0 0 10px; font-size:2rem; line-height:1.15; }
+    .hero p { margin:0; max-width:900px; opacity:0.96; }
+    .hero-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    button { appearance:none; border:none; border-radius:12px; padding:11px 14px; font-size:.95rem; font-weight:700; cursor:pointer; }
+    .primary { background:white; color:var(--accent); }
+    .secondary { background:rgba(255,255,255,.14); color:white; border:1px solid rgba(255,255,255,.28); }
+    .summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-bottom:22px; }
+    .summary-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:0 3px 10px rgba(0,0,0,.04); }
+    .summary-card .label { color:var(--muted); font-size:.92rem; margin-bottom:4px; }
+    .summary-card .value { font-size:1.55rem; font-weight:800; color:var(--accent); }
+    .calendar-nav { display:flex; gap:12px; overflow:auto; padding-bottom:10px; margin-bottom:18px; }
+    .calendar-chip { white-space:nowrap; background:white; border:1px solid var(--border); border-radius:999px; padding:9px 14px; font-weight:700; color:var(--accent-dark); text-decoration:none; }
+    .calendar-chip:hover { background:#f0fdfa; }
+    .week-card { background:var(--card); border:1px solid var(--border); border-radius:20px; box-shadow:0 3px 10px rgba(0,0,0,.04); overflow:hidden; margin-bottom:18px; scroll-margin-top: 24px; }
+    .week-header { padding:18px 18px 16px; background:#f0fdfa; border-bottom:1px solid var(--border); }
+    .week-header-top { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:flex-start; }
+    .week-header h2 { margin:0 0 4px; font-size:1.15rem; color:var(--accent-dark); }
+    .week-range { color:var(--muted); font-size:.92rem; }
+    .phase-badge { display:inline-block; background:var(--accent-light); color:#065f46; padding:5px 10px; border-radius:999px; font-size:.82rem; font-weight:700; margin-top:8px; }
+    .week-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:18px; padding:18px; }
+    .section-card { background:#fafafa; border:1px solid var(--border); border-radius:16px; padding:16px; }
+    .section-card h3 { margin:0 0 12px; font-size:1rem; color:var(--accent-dark); }
+    .check-list, .days-list, .day-checks { display:grid; gap:10px; }
+    .check-item { display:flex; gap:10px; align-items:flex-start; background:white; border:1px solid var(--border); border-radius:12px; padding:11px 12px; }
+    .check-item input[type="checkbox"] { width:20px; height:20px; margin-top:1px; accent-color:var(--accent); flex:0 0 auto; }
+    .check-title { font-weight:700; margin-bottom:2px; }
+    .check-sub { color:var(--muted); font-size:.9rem; }
+    .day-row { background:white; border:1px solid var(--border); border-radius:14px; padding:14px; }
+    .day-top { margin-bottom:10px; }
+    .day-name { font-weight:800; font-size:1rem; }
+    .date-text { color:var(--muted); font-size:.92rem; margin-top:2px; }
+    .weighin-row, .notes-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; padding:12px; background:white; border:1px solid var(--border); border-radius:12px; }
+    .weighin-row label, .notes-row label { font-weight:700; width:100%; }
+    .weighin-row input[type="text"], .notes-row textarea {
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border); font:inherit; background:#fff;
     }
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 18px 64px;
-    }
-    .hero {
-      background: linear-gradient(135deg, #134e4a, #0f766e);
-      color: white;
-      border-radius: 18px;
-      padding: 28px 26px;
-      margin-bottom: 22px;
-      box-shadow: var(--shadow);
-    }
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: 2rem;
-      line-height: 1.15;
-    }
-    .hero p {
-      margin: 0 0 14px;
-      max-width: 760px;
-      opacity: 0.95;
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    button {
-      appearance: none;
-      border: none;
-      border-radius: 12px;
-      padding: 11px 14px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .primary {
-      background: white;
-      color: var(--accent);
-    }
-    .secondary {
-      background: rgba(255,255,255,0.16);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.28);
-    }
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-    .summary-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
-    }
-    .summary-card .label {
-      color: var(--muted);
-      font-size: 0.92rem;
-      margin-bottom: 4px;
-    }
-    .summary-card .value {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--accent);
-    }
-    .week-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
-      overflow: hidden;
-      margin-bottom: 18px;
-    }
-    .week-header {
-      padding: 16px 18px;
-      background: #f0fdfa;
-      border-bottom: 1px solid var(--border);
-    }
-    .week-header h2 {
-      margin: 0 0 4px;
-      font-size: 1.15rem;
-      color: #134e4a;
-    }
-    .week-range {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .days-list {
-      padding: 8px 0;
-    }
-    .day-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: center;
-      padding: 14px 18px;
-      border-top: 1px solid var(--border);
-    }
-    .day-row:first-child {
-      border-top: none;
-    }
-    .day-date {
-      min-width: 240px;
-    }
-    .day-name {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-    .date-text {
-      color: var(--muted);
-      font-size: 0.94rem;
-      margin-top: 2px;
-    }
-    .checks {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 16px;
-      justify-content: flex-end;
-    }
-    .check-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fafafa;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      min-width: 140px;
-      user-select: none;
-    }
-    .check-item span {
-      font-weight: 600;
-    }
-    input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      accent-color: var(--accent);
-      cursor: pointer;
-      flex: 0 0 auto;
-    }
-    .footer {
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    @media (max-width: 700px) {
-      .day-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .checks {
-        justify-content: flex-start;
-      }
-      .day-date {
-        min-width: auto;
-      }
-      .check-item {
-        min-width: 132px;
-      }
-    }
-    @media print {
-      body { background: white; }
-      .wrap { max-width: none; padding: 0; }
-      .hero { box-shadow: none; }
-      button { display: none; }
-      .week-card { box-shadow: none; break-inside: avoid; }
-    }
+    .weighin-row input[type="text"] { max-width:240px; }
+    .notes-row textarea { min-height:96px; resize:vertical; }
+    .note { margin-top:10px; padding:12px 14px; border-radius:12px; background:var(--warning-bg); color:var(--warning-text); font-size:.92rem; }
+    .footer { margin-top:24px; color:var(--muted); font-size:.92rem; }
+    @media (max-width:900px) { .week-grid { grid-template-columns:1fr; } }
+    @media print { body{background:white;} .wrap{max-width:none;padding:0;} .hero{box-shadow:none;} button{display:none;} .calendar-nav{display:none;} .week-card,.section-card,.day-row{box-shadow:none;break-inside:avoid;} }
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <h1>12-Week Training & Nutrition Checklist</h1>
-      <p>
-        A simple list-style calendar for the next 12 weeks. Check off each day as you complete your
-        nutrition target and training target. Your checkmarks are saved automatically in your browser.
-      </p>
+      <h1>12-Week CrossFit Performance Checklist</h1>
+      <p>Built from your training plan: daily nutrition, daily class tracking, extra engine work, pacing practice, weekly weigh-ins, and weekly notes. Each checkbox and entry is saved automatically in your browser on this device.</p>
       <div class="hero-actions">
         <button class="primary" onclick="window.print()">Print / Save as PDF</button>
-        <button class="secondary" onclick="resetAll()">Reset all checkboxes</button>
+        <button class="secondary" onclick="resetAll()">Reset all progress</button>
       </div>
     </section>
 
     <section class="summary">
-      <div class="summary-card">
-        <div class="label">Nutrition completed</div>
-        <div class="value" id="nutritionCount">0 / 84</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Training completed</div>
-        <div class="value" id="trainingCount">0 / 84</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Total boxes checked</div>
-        <div class="value" id="totalCount">0 / 168</div>
-      </div>
+      <div class="summary-card"><div class="label">Nutrition days completed</div><div class="value" id="nutritionCount">0 / 84</div></div>
+      <div class="summary-card"><div class="label">CrossFit classes completed</div><div class="value" id="classCount">0 / 84</div></div>
+      <div class="summary-card"><div class="label">Weekly workout items completed</div><div class="value" id="weeklyCount">0 / 72</div></div>
+      <div class="summary-card"><div class="label">Weigh-ins entered</div><div class="value" id="weighinCount">0 / 12</div></div>
     </section>
 
+    <nav class="calendar-nav" id="calendarNav"></nav>
     <div id="weeksContainer"></div>
 
-    <p class="footer">
-      Progress is saved in local browser storage for this site on this device. Add it to your iPhone Home Screen in Safari for an app-like experience.
-    </p>
+    <p class="footer">This version is ready for GitHub Pages or other static hosting. Progress is stored locally in the browser on the device you use.</p>
   </div>
 
   <script>
-    const STORAGE_PREFIX = "crossfit-checklist-12wk-";
-    const TOTAL_DAYS = 84;
+    const STORAGE_PREFIX = "crossfit-advanced-checklist-gh-v1-";
+    const TOTAL_DAYS = 84, TOTAL_CLASSES = 84, TOTAL_WEEKLY_ITEMS = 72, TOTAL_WEIGHINS = 12;
 
     function startOfMonday(d) {
-      const copy = new Date(d);
-      copy.setHours(0,0,0,0);
-      const day = copy.getDay();
-      const mondayOffset = (day + 6) % 7;
+      const copy = new Date(d); copy.setHours(0,0,0,0);
+      const mondayOffset = (copy.getDay() + 6) % 7;
       copy.setDate(copy.getDate() - mondayOffset);
       return copy;
     }
-
     function formatWeekRange(start, end) {
-      const short = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
-      const longEnd = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
+      const short = new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric"});
+      const longEnd = new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"});
       return `${short.format(start)} – ${longEnd.format(end)}`;
     }
-
-    function formatDayName(d) {
-      return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(d);
+    const formatDayName = d => new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
+    const formatLongDate = d => new Intl.DateTimeFormat("en-US",{month:"long",day:"numeric",year:"numeric"}).format(d);
+    function isoDateLocal(d) {
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     }
 
-    function formatLongDate(d) {
-      return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(d);
+    function phaseDetails(weekIndex) {
+      if (weekIndex < 4) return {
+        phase:"Phase 1 · Weeks 1–4 · Base Build",
+        zone2:"2–3 Zone 2 sessions · 30–35 min each at easy conversational pace",
+        intervals:"1 interval session · 5 × 400 m row · 2 min rest · controlled effort",
+        engine:"1 engine builder · 12 min steady: 10 burpees + 8 cleans + 8 thrusters",
+        clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"
+      };
+      if (weekIndex < 8) return {
+        phase:"Phase 2 · Weeks 5–8 · Capacity Build",
+        zone2:"2–3 Zone 2 sessions · 35–45 min each at easy conversational pace",
+        intervals:"1 interval session · 6 × 500 m row · 90 sec rest · steady splits",
+        engine:"1 engine builder · 15 min steady: 12 burpees + 10 cleans + 10 thrusters",
+        clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"
+      };
+      return {
+        phase:"Phase 3 · Weeks 9–12 · Endurance & Control",
+        zone2:"2–3 Zone 2 sessions · 45–50 min each at easy conversational pace",
+        intervals:"1 interval session · 5 × 600 m row · 90 sec rest · consistent effort",
+        engine:"1 engine builder · 18 min steady: 12 burpees + 12 cleans + 12 thrusters",
+        clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"
+      };
     }
 
-    function isoDate(d) {
-      return d.toISOString().slice(0, 10);
+    function weeklyItems(weekIndex) {
+      const p = phaseDetails(weekIndex);
+      return [
+        { id:"zone2a", title:"Zone 2 session #1", sub:p.zone2 },
+        { id:"zone2b", title:"Zone 2 session #2", sub:p.zone2 },
+        { id:"intervals", title:"Interval session", sub:p.intervals },
+        { id:"engine", title:"Engine builder workout", sub:p.engine },
+        { id:"clean1", title:"Clean efficiency session #1", sub:p.clean },
+        { id:"clean2", title:"Clean efficiency session #2", sub:p.clean }
+      ];
     }
 
-    function buildCalendar() {
-      const today = new Date();
-      const monday = startOfMonday(today);
-      const container = document.getElementById("weeksContainer");
-      container.innerHTML = "";
+    function dailyItemsForDate() {
+      return [
+        { kind:"nutrition", title:"Nutrition", sub:"Hit your daily nutrition target" },
+        { kind:"class", title:"CrossFit class", sub:"Check this if you attended class today" }
+      ];
+    }
 
-      for (let week = 0; week < 12; week++) {
-        const weekStart = new Date(monday);
-        weekStart.setDate(monday.getDate() + week * 7);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekStart.getDate() + 6);
+    function buildWeekCard(weekIndex, weekStart) {
+      const p = phaseDetails(weekIndex);
+      const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate()+6);
 
-        const card = document.createElement("section");
-        card.className = "week-card";
+      const weeklyItemsHtml = weeklyItems(weekIndex).map(item => `
+        <label class="check-item">
+          <input type="checkbox" data-type="weekly" data-key="week-${weekIndex + 1}-${item.id}">
+          <div class="check-text">
+            <div class="check-title">${item.title}</div>
+            <div class="check-sub">${item.sub}</div>
+          </div>
+        </label>
+      `).join("");
 
-        const header = document.createElement("div");
-        header.className = "week-header";
-        header.innerHTML = `
-          <h2>Week ${week + 1}</h2>
-          <div class="week-range">${formatWeekRange(weekStart, weekEnd)}</div>
-        `;
-        card.appendChild(header);
-
-        const daysList = document.createElement("div");
-        daysList.className = "days-list";
-
-        for (let day = 0; day < 7; day++) {
-          const current = new Date(weekStart);
-          current.setDate(weekStart.getDate() + day);
-          const id = isoDate(current);
-
-          const row = document.createElement("div");
-          row.className = "day-row";
-          row.innerHTML = `
-            <div class="day-date">
+      const dayCardsHtml = Array.from({length:7}, (_, dayOffset) => {
+        const current = new Date(weekStart); current.setDate(weekStart.getDate()+dayOffset);
+        const id = isoDateLocal(current);
+        const items = dailyItemsForDate().map(item => `
+          <label class="check-item">
+            <input type="checkbox" data-type="${item.kind}" data-key="${id}-${item.kind}">
+            <div class="check-text">
+              <div class="check-title">${item.title}</div>
+              <div class="check-sub">${item.sub}</div>
+            </div>
+          </label>
+        `).join("");
+        return `
+          <div class="day-row">
+            <div class="day-top">
               <div class="day-name">${formatDayName(current)}</div>
               <div class="date-text">${formatLongDate(current)}</div>
             </div>
-            <div class="checks">
-              <label class="check-item">
-                <input type="checkbox" data-key="${id}-nutrition">
-                <span>Nutrition</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" data-key="${id}-training">
-                <span>Training</span>
-              </label>
-            </div>
-          `;
-          daysList.appendChild(row);
-        }
+            <div class="day-checks">${items}</div>
+          </div>
+        `;
+      }).join("");
 
-        card.appendChild(daysList);
-        container.appendChild(card);
+      const section = document.createElement("section");
+      section.className = "week-card";
+      section.id = `week-${weekIndex + 1}`;
+      section.innerHTML = `
+        <div class="week-header">
+          <div class="week-header-top">
+            <div>
+              <h2>Week ${weekIndex + 1}</h2>
+              <div class="week-range">${formatWeekRange(weekStart, weekEnd)}</div>
+              <div class="phase-badge">${p.phase}</div>
+            </div>
+          </div>
+          <div class="weighin-row">
+            <label for="weighin-${weekIndex + 1}">Weekly weigh-in</label>
+            <input type="text" id="weighin-${weekIndex + 1}" data-type="weighin" data-key="week-${weekIndex + 1}-weighin" placeholder="e.g. 203.8 lb">
+          </div>
+          <div class="notes-row">
+            <label for="notes-${weekIndex + 1}">Weekly notes</label>
+            <textarea id="notes-${weekIndex + 1}" data-type="notes" data-key="week-${weekIndex + 1}-notes" placeholder="Energy, sleep, pacing, soreness, wins, rough workouts, anything you want to remember..."></textarea>
+          </div>
+          <div class="note">Pacing reminder: on one class this week, deliberately keep the first half at 70–75% effort and avoid trying to bank time early.</div>
+        </div>
+        <div class="week-grid">
+          <div class="section-card">
+            <h3>Weekly performance work</h3>
+            <div class="check-list">${weeklyItemsHtml}</div>
+          </div>
+          <div class="section-card">
+            <h3>Daily checklist</h3>
+            <div class="days-list">${dayCardsHtml}</div>
+          </div>
+        </div>
+      `;
+      return section;
+    }
+
+    function buildCalendar() {
+      const monday = startOfMonday(new Date());
+      const container = document.getElementById("weeksContainer");
+      const nav = document.getElementById("calendarNav");
+      container.innerHTML = "";
+      nav.innerHTML = "";
+      for (let week = 0; week < 12; week++) {
+        const weekStart = new Date(monday); weekStart.setDate(monday.getDate()+week*7);
+        container.appendChild(buildWeekCard(week, weekStart));
+        const a = document.createElement("a");
+        a.className = "calendar-chip";
+        a.href = `#week-${week + 1}`;
+        a.textContent = `Week ${week + 1}`;
+        nav.appendChild(a);
       }
     }
 
-    function getCheckboxes() {
-      return Array.from(document.querySelectorAll('input[type="checkbox"]'));
-    }
+    const getCheckboxes = () => Array.from(document.querySelectorAll('input[type="checkbox"]'));
+    const getWeighinInputs = () => Array.from(document.querySelectorAll('input[type="text"][data-type="weighin"]'));
+    const getNoteInputs = () => Array.from(document.querySelectorAll('textarea[data-type="notes"]'));
 
     function loadState() {
-      getCheckboxes().forEach(cb => {
-        const key = STORAGE_PREFIX + cb.dataset.key;
-        cb.checked = localStorage.getItem(key) === "true";
-      });
+      getCheckboxes().forEach(el => { el.checked = localStorage.getItem(STORAGE_PREFIX + el.dataset.key) === "true"; });
+      getWeighinInputs().forEach(el => { el.value = localStorage.getItem(STORAGE_PREFIX + el.dataset.key) || ""; });
+      getNoteInputs().forEach(el => { el.value = localStorage.getItem(STORAGE_PREFIX + el.dataset.key) || ""; });
       updateCounts();
     }
-
-    function saveCheckbox(cb) {
-      const key = STORAGE_PREFIX + cb.dataset.key;
-      localStorage.setItem(key, cb.checked ? "true" : "false");
+    function saveCheckbox(el) {
+      localStorage.setItem(STORAGE_PREFIX + el.dataset.key, el.checked ? "true" : "false");
       updateCounts();
     }
-
+    function saveText(el) {
+      localStorage.setItem(STORAGE_PREFIX + el.dataset.key, el.value.trim());
+      updateCounts();
+    }
     function updateCounts() {
-      const checkboxes = getCheckboxes();
-      const nutrition = checkboxes.filter(cb => cb.dataset.key.endsWith("-nutrition") && cb.checked).length;
-      const training = checkboxes.filter(cb => cb.dataset.key.endsWith("-training") && cb.checked).length;
-      const total = checkboxes.filter(cb => cb.checked).length;
-
+      const checkboxes = getCheckboxes(), weighins = getWeighinInputs();
+      const nutrition = checkboxes.filter(el => el.dataset.type === "nutrition" && el.checked).length;
+      const classes = checkboxes.filter(el => el.dataset.type === "class" && el.checked).length;
+      const weekly = checkboxes.filter(el => el.dataset.type === "weekly" && el.checked).length;
+      const weighinCount = weighins.filter(el => el.value.trim().length > 0).length;
       document.getElementById("nutritionCount").textContent = `${nutrition} / ${TOTAL_DAYS}`;
-      document.getElementById("trainingCount").textContent = `${training} / ${TOTAL_DAYS}`;
-      document.getElementById("totalCount").textContent = `${total} / ${TOTAL_DAYS * 2}`;
+      document.getElementById("classCount").textContent = `${classes} / ${TOTAL_CLASSES}`;
+      document.getElementById("weeklyCount").textContent = `${weekly} / ${TOTAL_WEEKLY_ITEMS}`;
+      document.getElementById("weighinCount").textContent = `${weighinCount} / ${TOTAL_WEIGHINS}`;
     }
-
     function attachEvents() {
-      getCheckboxes().forEach(cb => {
-        cb.addEventListener("change", () => saveCheckbox(cb));
-      });
+      getCheckboxes().forEach(el => el.addEventListener("change", () => saveCheckbox(el)));
+      getWeighinInputs().forEach(el => { el.addEventListener("input", () => saveText(el)); el.addEventListener("change", () => saveText(el)); });
+      getNoteInputs().forEach(el => { el.addEventListener("input", () => saveText(el)); el.addEventListener("change", () => saveText(el)); });
     }
-
     function resetAll() {
-      const ok = confirm("Reset every checkbox for the full 12 weeks?");
-      if (!ok) return;
-      getCheckboxes().forEach(cb => {
-        cb.checked = false;
-        localStorage.removeItem(STORAGE_PREFIX + cb.dataset.key);
-      });
+      if (!confirm("Reset all checkboxes, weekly weigh-ins, and weekly notes for the full 12 weeks?")) return;
+      getCheckboxes().forEach(el => { el.checked = false; localStorage.removeItem(STORAGE_PREFIX + el.dataset.key); });
+      getWeighinInputs().forEach(el => { el.value = ""; localStorage.removeItem(STORAGE_PREFIX + el.dataset.key); });
+      getNoteInputs().forEach(el => { el.value = ""; localStorage.removeItem(STORAGE_PREFIX + el.dataset.key); });
       updateCounts();
     }
 
