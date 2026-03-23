@@ -1,16 +1,1 @@
-{
-  "name": "12-Week CrossFit Performance Checklist",
-  "short_name": "CrossFit Checklist",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#f7f7f5",
-  "theme_color": "#0f766e",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    }
-  ]
-}
+{"name":"12-Week CrossFit Performance Checklist","short_name":"CrossFit Checklist","start_url":"./index.html","display":"standalone","background_color":"#f7f7f5","theme_color":"#0f766e","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
