@@ -6,96 +6,184 @@
 <link rel="manifest" href="manifest.webmanifest" />
 <style>
 :root{--bg:#f7f7f5;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#0f766e;--accent-dark:#134e4a;--accent-light:#d1fae5;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--warning-bg:#fffbeb;--warning-text:#92400e}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}
-.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 64px}.hero{background:linear-gradient(135deg,var(--accent-dark),var(--accent));color:#fff;border-radius:20px;padding:28px 26px;margin-bottom:22px;box-shadow:var(--shadow)}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 64px}.hero{background:linear-gradient(135deg,var(--accent-dark),var(--accent));color:white;border-radius:20px;padding:28px 26px;margin-bottom:22px;box-shadow:var(--shadow)}
 .hero h1{margin:0 0 10px;font-size:2rem;line-height:1.15}.hero p{margin:0;max-width:900px;opacity:.96}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-button{appearance:none;border:none;border-radius:12px;padding:11px 14px;font-size:.95rem;font-weight:700;cursor:pointer}.primary{background:#fff;color:var(--accent)}.secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.28)}
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:22px}.summary-card,.week-card,.report-card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 3px 10px rgba(0,0,0,.04)}
-.summary-card{padding:16px}.summary-card .label,.week-range,.footer{color:var(--muted);font-size:.92rem}.summary-card .value{font-size:1.55rem;font-weight:800;color:var(--accent)}
-.calendar-nav{display:flex;gap:12px;overflow:auto;padding-bottom:10px;margin-bottom:18px}.calendar-chip{white-space:nowrap;background:#fff;border:1px solid var(--border);border-radius:999px;padding:9px 14px;font-weight:700;color:var(--accent-dark);text-decoration:none}
-.week-card,.report-card{overflow:hidden;margin-bottom:18px;scroll-margin-top:24px}.week-header,.report-header{padding:18px 18px 16px;background:#f0fdfa;border-bottom:1px solid var(--border)}.week-header h2,.report-header h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent-dark)}
-.phase-badge{display:inline-block;background:var(--accent-light);color:#065f46;padding:5px 10px;border-radius:999px;font-size:.82rem;font-weight:700;margin-top:8px}.week-grid,.report-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;padding:18px}
-.section-card,.metric{background:#fafafa;border:1px solid var(--border);border-radius:16px;padding:16px}.section-card h3{margin:0 0 12px;font-size:1rem;color:var(--accent-dark)}
-.check-list,.days-list,.day-checks,.report-list{display:grid;gap:10px}.check-item,.day-row{background:#fff;border:1px solid var(--border);border-radius:12px}.check-item{display:flex;gap:10px;align-items:flex-start;padding:11px 12px}.check-item input[type=checkbox]{width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex:0 0 auto}
-.check-title{font-weight:700;margin-bottom:2px}.check-sub{color:var(--muted);font-size:.9rem}.day-row{padding:14px}.day-top{margin-bottom:10px}.day-name{font-weight:800;font-size:1rem}.date-text{color:var(--muted);font-size:.92rem;margin-top:2px}
-.weighin-row,.notes-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;padding:12px;background:#fff;border:1px solid var(--border);border-radius:12px}
+button{appearance:none;border:none;border-radius:12px;padding:11px 14px;font-size:.95rem;font-weight:700;cursor:pointer}
+.primary{background:white;color:var(--accent)}.secondary{background:rgba(255,255,255,.14);color:white;border:1px solid rgba(255,255,255,.28)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:22px}.summary-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.04)}
+.summary-card .label{color:var(--muted);font-size:.92rem;margin-bottom:4px}.summary-card .value{font-size:1.55rem;font-weight:800;color:var(--accent)}
+.calendar-nav{display:flex;gap:12px;overflow:auto;padding-bottom:10px;margin-bottom:18px}.calendar-chip{white-space:nowrap;background:white;border:1px solid var(--border);border-radius:999px;padding:9px 14px;font-weight:700;color:var(--accent-dark);text-decoration:none}
+.calendar-chip:hover{background:#f0fdfa}.week-card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 3px 10px rgba(0,0,0,.04);overflow:hidden;margin-bottom:18px;scroll-margin-top:24px}
+.week-header{padding:18px 18px 16px;background:#f0fdfa;border-bottom:1px solid var(--border)}.week-header h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent-dark)}
+.week-range{color:var(--muted);font-size:.92rem}.phase-badge{display:inline-block;background:var(--accent-light);color:#065f46;padding:5px 10px;border-radius:999px;font-size:.82rem;font-weight:700;margin-top:8px}
+.week-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;padding:18px}.section-card{background:#fafafa;border:1px solid var(--border);border-radius:16px;padding:16px}.section-card h3{margin:0 0 12px;font-size:1rem;color:var(--accent-dark)}
+.check-list,.days-list,.day-checks{display:grid;gap:10px}.check-item{display:flex;gap:10px;align-items:flex-start;background:white;border:1px solid var(--border);border-radius:12px;padding:11px 12px}
+.check-item input[type=checkbox]{width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex:0 0 auto}.check-title{font-weight:700;margin-bottom:2px}.check-sub{color:var(--muted);font-size:.9rem}
+.day-row{background:white;border:1px solid var(--border);border-radius:14px;padding:14px}.day-top{margin-bottom:10px}.day-name{font-weight:800;font-size:1rem}.date-text{color:var(--muted);font-size:.92rem;margin-top:2px}
+.weighin-row,.notes-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;padding:12px;background:white;border:1px solid var(--border);border-radius:12px}
 .weighin-row label,.notes-row label{font-weight:700;width:100%}.weighin-row input[type=text],.notes-row textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);font:inherit;background:#fff}
 .weighin-row input[type=text]{max-width:240px}.notes-row textarea{min-height:96px;resize:vertical}.note{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--warning-bg);color:var(--warning-text);font-size:.92rem}
-.report-body{padding:18px}.report-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}.metric .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}.metric .value{font-size:1.5rem;font-weight:800;color:var(--accent)}
-table{width:100%;border-collapse:collapse;font-size:.95rem}th,td{border:1px solid var(--border);padding:10px 12px;text-align:left;vertical-align:top}th{background:#f0fdfa;color:var(--accent-dark)}
-.hidden{display:none!important}@media (max-width:900px){.week-grid,.report-grid{grid-template-columns:1fr}}@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero{box-shadow:none}.calendar-nav,#weeksContainer,#openReportBtn,#backToTrackerBtn,#csvBtn,#resetBtn{display:none!important}#reportSection.hidden{display:block!important}#trackerSection.hidden{display:none!important}}
+.footer{margin-top:24px;color:var(--muted);font-size:.92rem}.hidden{display:none}
+@media (max-width:900px){.week-grid{grid-template-columns:1fr}}@media print{body{background:white}.wrap{max-width:none;padding:0}.hero{box-shadow:none}button,.calendar-nav,#importFile{display:none}.week-card,.section-card,.day-row{box-shadow:none;break-inside:avoid}}
 </style>
 </head>
-<body><div class="wrap">
-<section class="hero"><h1>12-Week CrossFit Performance Checklist</h1><p>Built from your training plan: daily nutrition, daily class tracking, extra engine work, pacing practice, weekly weigh-ins, weekly notes, and a printable end-of-cycle report.</p>
-<div class="hero-actions"><button class="primary" onclick="window.print()">Print / Save as PDF</button><button class="primary" id="openReportBtn" onclick="showReport()">Generate report</button><button class="secondary" id="csvBtn" onclick="downloadCSV()">Export CSV</button><button class="secondary" id="resetBtn" onclick="resetAll()">Reset all progress</button></div></section>
+<body>
+<div class="wrap">
+<section class="hero">
+<h1>12-Week CrossFit Performance Checklist</h1>
+<p>Built from your training plan: daily nutrition, daily class tracking, extra engine work, pacing practice, weekly weigh-ins, weekly notes, plus quick export and import for easy backups.</p>
+<div class="hero-actions">
+<button class="primary" onclick="window.print()">Print / Save as PDF</button>
+<button class="primary" onclick="exportBackup()">Export data</button>
+<button class="primary" onclick="document.getElementById('importFile').click()">Import data</button>
+<button class="secondary" onclick="resetAll()">Reset all progress</button>
+<input id="importFile" type="file" accept=".json,application/json" class="hidden">
+</div>
+</section>
 
-<section id="trackerSection">
 <section class="summary">
 <div class="summary-card"><div class="label">Nutrition days completed</div><div class="value" id="nutritionCount">0 / 84</div></div>
 <div class="summary-card"><div class="label">CrossFit classes completed</div><div class="value" id="classCount">0 / 84</div></div>
 <div class="summary-card"><div class="label">Weekly workout items completed</div><div class="value" id="weeklyCount">0 / 72</div></div>
 <div class="summary-card"><div class="label">Weigh-ins entered</div><div class="value" id="weighinCount">0 / 12</div></div>
 </section>
-<nav class="calendar-nav" id="calendarNav"></nav><div id="weeksContainer"></div>
-</section>
 
-<section id="reportSection" class="hidden">
-<section class="report-card"><div class="report-header"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start">
-<div><h2>12-Week Report & Insights</h2><div class="week-range" id="reportRangeText">Generated summary</div></div>
-<div><button class="primary" id="backToTrackerBtn" onclick="hideReport()">Back to tracker</button></div></div></div>
-<div class="report-body">
-<div class="report-metrics">
-<div class="metric"><div class="label">Nutrition compliance</div><div class="value" id="reportNutritionPct">0%</div></div>
-<div class="metric"><div class="label">Class attendance rate</div><div class="value" id="reportClassPct">0%</div></div>
-<div class="metric"><div class="label">Weekly work completion</div><div class="value" id="reportWeeklyPct">0%</div></div>
-<div class="metric"><div class="label">Weight change</div><div class="value" id="reportWeightChange">—</div></div>
-</div>
-<div class="report-grid">
-<div class="section-card"><h3>Overall summary</h3><div class="report-list" id="overallSummary"></div></div>
-<div class="section-card"><h3>Weight trend</h3><div class="report-list" id="weightSummary"></div></div>
-</div>
-<div class="section-card" style="margin-top:18px;"><h3>Weekly breakdown</h3><div style="overflow:auto;"><table id="weeklyReportTable"><thead><tr><th>Week</th><th>Nutrition</th><th>Classes</th><th>Weekly work</th><th>Weigh-in</th><th>Notes</th></tr></thead><tbody></tbody></table></div></div>
-<div class="section-card" style="margin-top:18px;"><h3>Notes log</h3><div class="report-list" id="notesLog"></div></div>
-</div></section></section>
+<nav class="calendar-nav" id="calendarNav"></nav>
+<div id="weeksContainer"></div>
 
-<p class="footer">This version is ready for GitHub Pages or other static hosting. Progress is stored locally in the browser on the device you use.</p>
+<p class="footer">Tip: use <strong>Export data</strong> whenever you want a backup or before moving to another phone/browser. Then use <strong>Import data</strong> to restore it later.</p>
 </div>
+
 <script>
-const STORAGE_PREFIX="crossfit-advanced-checklist-report-v1-",TOTAL_DAYS=84,TOTAL_CLASSES=84,TOTAL_WEEKLY_ITEMS=72,TOTAL_WEIGHINS=12; let cycleStartDate=null,cycleEndDate=null;
-function startOfMonday(d){const c=new Date(d);c.setHours(0,0,0,0);const off=(c.getDay()+6)%7;c.setDate(c.getDate()-off);return c}
-function formatWeekRange(s,e){const a=new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric"}),b=new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"});return `${a.format(s)} – ${b.format(e)}`}
-const formatDayName=d=>new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d), formatLongDate=d=>new Intl.DateTimeFormat("en-US",{month:"long",day:"numeric",year:"numeric"}).format(d);
-function isoDateLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-function phaseDetails(i){if(i<4)return{phase:"Phase 1 · Weeks 1–4 · Base Build",zone2:"2–3 Zone 2 sessions · 30–35 min each at easy conversational pace",intervals:"1 interval session · 5 × 400 m row · 2 min rest · controlled effort",engine:"1 engine builder · 12 min steady: 10 burpees + 8 cleans + 8 thrusters",clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"}; if(i<8)return{phase:"Phase 2 · Weeks 5–8 · Capacity Build",zone2:"2–3 Zone 2 sessions · 35–45 min each at easy conversational pace",intervals:"1 interval session · 6 × 500 m row · 90 sec rest · steady splits",engine:"1 engine builder · 15 min steady: 12 burpees + 10 cleans + 10 thrusters",clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"}; return{phase:"Phase 3 · Weeks 9–12 · Endurance & Control",zone2:"2–3 Zone 2 sessions · 45–50 min each at easy conversational pace",intervals:"1 interval session · 5 × 600 m row · 90 sec rest · consistent effort",engine:"1 engine builder · 18 min steady: 12 burpees + 12 cleans + 12 thrusters",clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"}}
-function weeklyItems(i){const p=phaseDetails(i);return[{id:"zone2a",title:"Zone 2 session #1",sub:p.zone2},{id:"zone2b",title:"Zone 2 session #2",sub:p.zone2},{id:"intervals",title:"Interval session",sub:p.intervals},{id:"engine",title:"Engine builder workout",sub:p.engine},{id:"clean1",title:"Clean efficiency session #1",sub:p.clean},{id:"clean2",title:"Clean efficiency session #2",sub:p.clean}]}
-function dailyItemsForDate(){return[{kind:"nutrition",title:"Nutrition",sub:"Hit your daily nutrition target"},{kind:"class",title:"CrossFit class",sub:"Check this if you attended class today"}]}
-function buildWeekCard(i,weekStart){const p=phaseDetails(i),weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);
-const weeklyItemsHtml=weeklyItems(i).map(item=>`<label class="check-item"><input type="checkbox" data-type="weekly" data-key="week-${i+1}-${item.id}"><div class="check-text"><div class="check-title">${item.title}</div><div class="check-sub">${item.sub}</div></div></label>`).join("");
-const dayCardsHtml=Array.from({length:7},(_,dayOffset)=>{const current=new Date(weekStart);current.setDate(weekStart.getDate()+dayOffset);const id=isoDateLocal(current);const items=dailyItemsForDate().map(item=>`<label class="check-item"><input type="checkbox" data-type="${item.kind}" data-key="${id}-${item.kind}"><div class="check-text"><div class="check-title">${item.title}</div><div class="check-sub">${item.sub}</div></div></label>`).join(""); return `<div class="day-row"><div class="day-top"><div class="day-name">${formatDayName(current)}</div><div class="date-text">${formatLongDate(current)}</div></div><div class="day-checks">${items}</div></div>`}).join("");
-const section=document.createElement("section"); section.className="week-card"; section.id=`week-${i+1}`; section.innerHTML=`<div class="week-header"><div><h2>Week ${i+1}</h2><div class="week-range">${formatWeekRange(weekStart,weekEnd)}</div><div class="phase-badge">${p.phase}</div></div><div class="weighin-row"><label for="weighin-${i+1}">Weekly weigh-in</label><input type="text" id="weighin-${i+1}" data-type="weighin" data-key="week-${i+1}-weighin" placeholder="e.g. 203.8 lb"></div><div class="notes-row"><label for="notes-${i+1}">Weekly notes</label><textarea id="notes-${i+1}" data-type="notes" data-key="week-${i+1}-notes" placeholder="Energy, sleep, pacing, soreness, wins, rough workouts, anything you want to remember..."></textarea></div><div class="note">Pacing reminder: on one class this week, deliberately keep the first half at 70–75% effort and avoid trying to bank time early.</div></div><div class="week-grid"><div class="section-card"><h3>Weekly performance work</h3><div class="check-list">${weeklyItemsHtml}</div></div><div class="section-card"><h3>Daily checklist</h3><div class="days-list">${dayCardsHtml}</div></div></div>`; return section}
-function buildCalendar(){const monday=startOfMonday(new Date()); cycleStartDate=new Date(monday); cycleEndDate=new Date(monday); cycleEndDate.setDate(monday.getDate()+83); const container=document.getElementById("weeksContainer"),nav=document.getElementById("calendarNav"); container.innerHTML=""; nav.innerHTML=""; for(let i=0;i<12;i++){const weekStart=new Date(monday); weekStart.setDate(monday.getDate()+i*7); container.appendChild(buildWeekCard(i,weekStart)); const a=document.createElement("a"); a.className="calendar-chip"; a.href=`#week-${i+1}`; a.textContent=`Week ${i+1}`; nav.appendChild(a)}}
-const getCheckboxes=()=>Array.from(document.querySelectorAll('input[type="checkbox"]')), getWeighinInputs=()=>Array.from(document.querySelectorAll('input[type="text"][data-type="weighin"]')), getNoteInputs=()=>Array.from(document.querySelectorAll('textarea[data-type="notes"]'));
-function loadState(){getCheckboxes().forEach(el=>el.checked=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)==="true"); getWeighinInputs().forEach(el=>el.value=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)||""); getNoteInputs().forEach(el=>el.value=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)||""); updateCounts()}
-function saveCheckbox(el){localStorage.setItem(STORAGE_PREFIX+el.dataset.key,el.checked?"true":"false"); updateCounts()}
-function saveText(el){localStorage.setItem(STORAGE_PREFIX+el.dataset.key,el.value.trim()); updateCounts()}
-function updateCounts(){const cb=getCheckboxes(),w=getWeighinInputs(); document.getElementById("nutritionCount").textContent=`${cb.filter(el=>el.dataset.type==="nutrition"&&el.checked).length} / ${TOTAL_DAYS}`; document.getElementById("classCount").textContent=`${cb.filter(el=>el.dataset.type==="class"&&el.checked).length} / ${TOTAL_CLASSES}`; document.getElementById("weeklyCount").textContent=`${cb.filter(el=>el.dataset.type==="weekly"&&el.checked).length} / ${TOTAL_WEEKLY_ITEMS}`; document.getElementById("weighinCount").textContent=`${w.filter(el=>el.value.trim().length>0).length} / ${TOTAL_WEIGHINS}`}
-function attachEvents(){getCheckboxes().forEach(el=>el.addEventListener("change",()=>saveCheckbox(el))); getWeighinInputs().forEach(el=>["input","change"].forEach(ev=>el.addEventListener(ev,()=>saveText(el)))); getNoteInputs().forEach(el=>["input","change"].forEach(ev=>el.addEventListener(ev,()=>saveText(el))))}
-function parseWeight(v){if(!v)return null; const m=String(v).replace(/,/g,"").match(/-?\d+(?:\.\d+)?/); return m?parseFloat(m[0]):null}
-function percent(done,total){return total?`${Math.round(done/total*100)}%`:"0%"}
-function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function getWeekData(n){const nutritionDays=[],classDays=[]; for(let d=0;d<7;d++){const date=new Date(cycleStartDate); date.setDate(cycleStartDate.getDate()+(n-1)*7+d); const id=isoDateLocal(date); nutritionDays.push(localStorage.getItem(STORAGE_PREFIX+`${id}-nutrition`)==="true"); classDays.push(localStorage.getItem(STORAGE_PREFIX+`${id}-class`)==="true")} const weeklyDone=weeklyItems(n-1).filter(item=>localStorage.getItem(STORAGE_PREFIX+`week-${n}-${item.id}`)==="true").length; const weighinRaw=localStorage.getItem(STORAGE_PREFIX+`week-${n}-weighin`)||""; const notes=localStorage.getItem(STORAGE_PREFIX+`week-${n}-notes`)||""; return {week:n,nutritionDone:nutritionDays.filter(Boolean).length,classesDone:classDays.filter(Boolean).length,weeklyDone,weighinRaw,weighinValue:parseWeight(weighinRaw),notes}}
-function showReport(){const wd=Array.from({length:12},(_,i)=>getWeekData(i+1)); const nt=wd.reduce((a,w)=>a+w.nutritionDone,0),ct=wd.reduce((a,w)=>a+w.classesDone,0),wt=wd.reduce((a,w)=>a+w.weeklyDone,0); const fw=wd.find(w=>w.weighinValue!==null), lw=[...wd].reverse().find(w=>w.weighinValue!==null); let change="No weight trend yet"; if(fw&&lw){const diff=lw.weighinValue-fw.weighinValue; change=`${diff>0?"+":""}${diff.toFixed(1)}`}
-document.getElementById("reportRangeText").textContent=`${formatLongDate(cycleStartDate)} to ${formatLongDate(cycleEndDate)}`; document.getElementById("reportNutritionPct").textContent=percent(nt,TOTAL_DAYS); document.getElementById("reportClassPct").textContent=percent(ct,TOTAL_CLASSES); document.getElementById("reportWeeklyPct").textContent=percent(wt,TOTAL_WEEKLY_ITEMS); document.getElementById("reportWeightChange").textContent=change;
-const overall=document.getElementById("overallSummary"); overall.innerHTML=""; [`Nutrition completed on ${nt} of ${TOTAL_DAYS} days.`,`CrossFit class attended on ${ct} of ${TOTAL_CLASSES} possible days tracked.`,`Weekly performance work completed ${wt} of ${TOTAL_WEEKLY_ITEMS} times.`,`Weigh-ins entered in ${wd.filter(w=>w.weighinRaw.trim()).length} of ${TOTAL_WEIGHINS} weeks.`].forEach(t=>{const div=document.createElement("div"); div.className="check-item"; div.innerHTML=`<div class="check-text"><div class="check-title">${esc(t)}</div></div>`; overall.appendChild(div)});
-const ws=document.getElementById("weightSummary"); ws.innerHTML=""; const weightLines=(fw&&lw)?[`Start weigh-in: Week ${fw.week} — ${fw.weighinRaw}`,`End weigh-in: Week ${lw.week} — ${lw.weighinRaw}`,`Net change: ${change}`]:[`Enter at least one or two weigh-ins to see a useful trend.`]; weightLines.forEach(t=>{const div=document.createElement("div"); div.className="check-item"; div.innerHTML=`<div class="check-text"><div class="check-title">${esc(t)}</div></div>`; ws.appendChild(div)});
-const tbody=document.querySelector("#weeklyReportTable tbody"); tbody.innerHTML=""; wd.forEach(w=>{const tr=document.createElement("tr"); const short=w.notes.trim()?((w.notes.trim().length>90)?w.notes.trim().slice(0,90)+"…":w.notes.trim()):"—"; tr.innerHTML=`<td>Week ${w.week}</td><td>${w.nutritionDone} / 7</td><td>${w.classesDone} / 7</td><td>${w.weeklyDone} / 6</td><td>${esc(w.weighinRaw.trim()||"—")}</td><td>${esc(short)}</td>`; tbody.appendChild(tr)});
-const notes=document.getElementById("notesLog"); notes.innerHTML=""; const noted=wd.filter(w=>w.notes.trim()); if(noted.length){noted.forEach(w=>{const div=document.createElement("div"); div.className="check-item"; div.innerHTML=`<div class="check-text"><div class="check-title">Week ${w.week}</div><div class="check-sub">${esc(w.notes)}</div></div>`; notes.appendChild(div)})} else {const div=document.createElement("div"); div.className="check-item"; div.innerHTML=`<div class="check-text"><div class="check-title">No weekly notes entered yet.</div></div>`; notes.appendChild(div)}
-document.getElementById("trackerSection").classList.add("hidden"); document.getElementById("reportSection").classList.remove("hidden"); window.scrollTo({top:0,behavior:"smooth"})}
-function hideReport(){document.getElementById("reportSection").classList.add("hidden"); document.getElementById("trackerSection").classList.remove("hidden"); window.scrollTo({top:0,behavior:"smooth"})}
-function csvEscape(v){return `"${String(v??"").replace(/"/g,'""')}"`}
-function downloadCSV(){const rows=[["Week","NutritionDays","ClassDays","WeeklyWorkDone","WeighIn","Notes"]]; for(let i=1;i<=12;i++){const w=getWeekData(i); rows.push([`Week ${w.week}`,w.nutritionDone,w.classesDone,w.weeklyDone,w.weighinRaw,w.notes])} const csv=rows.map(r=>r.map(csvEscape).join(",")).join("\\n"); const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"}), url=URL.createObjectURL(blob), a=document.createElement("a"); a.href=url; a.download="crossfit-12-week-report.csv"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url)}
-function resetAll(){if(!confirm("Reset all checkboxes, weekly weigh-ins, and weekly notes for the full 12 weeks?"))return; getCheckboxes().forEach(el=>{el.checked=false;localStorage.removeItem(STORAGE_PREFIX+el.dataset.key)}); getWeighinInputs().forEach(el=>{el.value="";localStorage.removeItem(STORAGE_PREFIX+el.dataset.key)}); getNoteInputs().forEach(el=>{el.value="";localStorage.removeItem(STORAGE_PREFIX+el.dataset.key)}); updateCounts(); hideReport()}
+const STORAGE_PREFIX = "crossfit-advanced-checklist-gh-v2-";
+const TOTAL_DAYS = 84, TOTAL_CLASSES = 84, TOTAL_WEEKLY_ITEMS = 72, TOTAL_WEIGHINS = 12;
+
+function startOfMonday(d){const c=new Date(d);c.setHours(0,0,0,0);const off=(c.getDay()+6)%7;c.setDate(c.getDate()-off);return c;}
+function formatWeekRange(s,e){const a=new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric"}),b=new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"});return `${a.format(s)} – ${b.format(e)}`;}
+const formatDayName=d=>new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
+const formatLongDate=d=>new Intl.DateTimeFormat("en-US",{month:"long",day:"numeric",year:"numeric"}).format(d);
+function isoDateLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+
+function phaseDetails(i){
+  if(i<4) return {phase:"Phase 1 · Weeks 1–4 · Base Build",zone2:"2–3 Zone 2 sessions · 30–35 min each at easy conversational pace",intervals:"1 interval session · 5 × 400 m row · 2 min rest · controlled effort",engine:"1 engine builder · 12 min steady: 10 burpees + 8 cleans + 8 thrusters",clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"};
+  if(i<8) return {phase:"Phase 2 · Weeks 5–8 · Capacity Build",zone2:"2–3 Zone 2 sessions · 35–45 min each at easy conversational pace",intervals:"1 interval session · 6 × 500 m row · 90 sec rest · steady splits",engine:"1 engine builder · 15 min steady: 12 burpees + 10 cleans + 10 thrusters",clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"};
+  return {phase:"Phase 3 · Weeks 9–12 · Endurance & Control",zone2:"2–3 Zone 2 sessions · 45–50 min each at easy conversational pace",intervals:"1 interval session · 5 × 600 m row · 90 sec rest · consistent effort",engine:"1 engine builder · 18 min steady: 12 burpees + 12 cleans + 12 thrusters",clean:"2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans"};
+}
+function weeklyItems(i){
+  const p=phaseDetails(i);
+  return [
+    {id:"zone2a",title:"Zone 2 session #1",sub:p.zone2},
+    {id:"zone2b",title:"Zone 2 session #2",sub:p.zone2},
+    {id:"intervals",title:"Interval session",sub:p.intervals},
+    {id:"engine",title:"Engine builder workout",sub:p.engine},
+    {id:"clean1",title:"Clean efficiency session #1",sub:p.clean},
+    {id:"clean2",title:"Clean efficiency session #2",sub:p.clean}
+  ];
+}
+function dailyItemsForDate(){
+  return [
+    {kind:"nutrition",title:"Nutrition",sub:"Hit your daily nutrition target"},
+    {kind:"class",title:"CrossFit class",sub:"Check this if you attended class today"}
+  ];
+}
+function buildWeekCard(i, weekStart){
+  const p=phaseDetails(i), weekEnd=new Date(weekStart); weekEnd.setDate(weekStart.getDate()+6);
+  const weeklyItemsHtml=weeklyItems(i).map(item=>`<label class="check-item"><input type="checkbox" data-type="weekly" data-key="week-${i+1}-${item.id}"><div class="check-text"><div class="check-title">${item.title}</div><div class="check-sub">${item.sub}</div></div></label>`).join("");
+  const dayCardsHtml=Array.from({length:7},(_,dayOffset)=>{const current=new Date(weekStart); current.setDate(weekStart.getDate()+dayOffset); const id=isoDateLocal(current); const items=dailyItemsForDate().map(item=>`<label class="check-item"><input type="checkbox" data-type="${item.kind}" data-key="${id}-${item.kind}"><div class="check-text"><div class="check-title">${item.title}</div><div class="check-sub">${item.sub}</div></div></label>`).join(""); return `<div class="day-row"><div class="day-top"><div class="day-name">${formatDayName(current)}</div><div class="date-text">${formatLongDate(current)}</div></div><div class="day-checks">${items}</div></div>`;}).join("");
+  const section=document.createElement("section");
+  section.className="week-card"; section.id=`week-${i+1}`;
+  section.innerHTML=`<div class="week-header"><h2>Week ${i+1}</h2><div class="week-range">${formatWeekRange(weekStart, weekEnd)}</div><div class="phase-badge">${p.phase}</div><div class="weighin-row"><label for="weighin-${i+1}">Weekly weigh-in</label><input type="text" id="weighin-${i+1}" data-type="weighin" data-key="week-${i+1}-weighin" placeholder="e.g. 203.8 lb"></div><div class="notes-row"><label for="notes-${i+1}">Weekly notes</label><textarea id="notes-${i+1}" data-type="notes" data-key="week-${i+1}-notes" placeholder="Energy, sleep, pacing, soreness, wins, rough workouts, anything you want to remember..."></textarea></div><div class="note">Pacing reminder: on one class this week, deliberately keep the first half at 70–75% effort and avoid trying to bank time early.</div></div><div class="week-grid"><div class="section-card"><h3>Weekly performance work</h3><div class="check-list">${weeklyItemsHtml}</div></div><div class="section-card"><h3>Daily checklist</h3><div class="days-list">${dayCardsHtml}</div></div></div>`;
+  return section;
+}
+function buildCalendar(){
+  const monday=startOfMonday(new Date());
+  const container=document.getElementById("weeksContainer"), nav=document.getElementById("calendarNav");
+  container.innerHTML=""; nav.innerHTML="";
+  for(let i=0;i<12;i++){
+    const weekStart=new Date(monday); weekStart.setDate(monday.getDate()+i*7);
+    container.appendChild(buildWeekCard(i, weekStart));
+    const a=document.createElement("a"); a.className="calendar-chip"; a.href=`#week-${i+1}`; a.textContent=`Week ${i+1}`; nav.appendChild(a);
+  }
+}
+const getCheckboxes=()=>Array.from(document.querySelectorAll('input[type="checkbox"]'));
+const getWeighinInputs=()=>Array.from(document.querySelectorAll('input[type="text"][data-type="weighin"]'));
+const getNoteInputs=()=>Array.from(document.querySelectorAll('textarea[data-type="notes"]'));
+function loadState(){
+  getCheckboxes().forEach(el=>{el.checked=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)==="true";});
+  getWeighinInputs().forEach(el=>{el.value=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)||"";});
+  getNoteInputs().forEach(el=>{el.value=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)||"";});
+  updateCounts();
+}
+function saveCheckbox(el){localStorage.setItem(STORAGE_PREFIX+el.dataset.key,el.checked?"true":"false");updateCounts();}
+function saveText(el){localStorage.setItem(STORAGE_PREFIX+el.dataset.key,el.value.trim());updateCounts();}
+function updateCounts(){
+  const checkboxes=getCheckboxes(), weighins=getWeighinInputs();
+  document.getElementById("nutritionCount").textContent=`${checkboxes.filter(el=>el.dataset.type==="nutrition"&&el.checked).length} / ${TOTAL_DAYS}`;
+  document.getElementById("classCount").textContent=`${checkboxes.filter(el=>el.dataset.type==="class"&&el.checked).length} / ${TOTAL_CLASSES}`;
+  document.getElementById("weeklyCount").textContent=`${checkboxes.filter(el=>el.dataset.type==="weekly"&&el.checked).length} / ${TOTAL_WEEKLY_ITEMS}`;
+  document.getElementById("weighinCount").textContent=`${weighins.filter(el=>el.value.trim().length>0).length} / ${TOTAL_WEIGHINS}`;
+}
+function attachEvents(){
+  getCheckboxes().forEach(el=>el.addEventListener("change",()=>saveCheckbox(el)));
+  getWeighinInputs().forEach(el=>["input","change"].forEach(ev=>el.addEventListener(ev,()=>saveText(el))));
+  getNoteInputs().forEach(el=>["input","change"].forEach(ev=>el.addEventListener(ev,()=>saveText(el))));
+  document.getElementById("importFile").addEventListener("change", handleImportFile);
+}
+function clearStoredData(){
+  const keys=[];
+  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i); if(k && k.startsWith("crossfit-advanced-checklist-gh-v")) keys.push(k);}
+  keys.forEach(k=>localStorage.removeItem(k));
+}
+function resetAll(){
+  if(!confirm("Reset all checkboxes, weekly weigh-ins, and weekly notes for the full 12 weeks?")) return;
+  clearStoredData();
+  loadState();
+}
+function gatherBackup(){
+  const data={version:1,prefix:STORAGE_PREFIX,exportedAt:new Date().toISOString(),items:{}};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && k.startsWith("crossfit-advanced-checklist-gh-v")) data.items[k]=localStorage.getItem(k);
+  }
+  return data;
+}
+function exportBackup(){
+  const data=gatherBackup();
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download=`crossfit-12-week-backup-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+function handleImportFile(event){
+  const file=event.target.files && event.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const parsed=JSON.parse(reader.result);
+      if(!parsed || typeof parsed!=="object" || !parsed.items || typeof parsed.items!=="object") throw new Error("bad file");
+      const itemKeys=Object.keys(parsed.items);
+      if(!confirm(`Import backup with ${itemKeys.length} saved items? This will overwrite current tracker data.`)){ event.target.value=""; return; }
+      clearStoredData();
+      itemKeys.forEach(k=>{
+        const suffix = k.includes("-") ? k.replace(/^crossfit-advanced-checklist-gh-v\d+-/, "") : "";
+        const newKey = suffix ? (STORAGE_PREFIX + suffix) : k;
+        if(newKey.startsWith(STORAGE_PREFIX)) localStorage.setItem(newKey, parsed.items[k]);
+      });
+      loadState();
+      alert("Import complete.");
+    }catch(e){
+      alert("That file could not be imported.");
+    }finally{
+      event.target.value="";
+    }
+  };
+  reader.readAsText(file);
+}
 buildCalendar(); attachEvents(); loadState();
-if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("./service-worker.js").catch(()=>{})})}
-</script></body></html>
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("./service-worker.js").catch(()=>{});});}
+</script>
+</body>
+</html>
