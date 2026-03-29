@@ -1,18 +1,20 @@
-# 12-Week CrossFit Checklist with Export / Import
+# CrossFit Toolkit v2
 
-Included:
-- index.html — tracker app with quick backup export/import
-- manifest.webmanifest
-- service-worker.js
-- icon.svg
-- README.md
+This GitHub-ready web app combines:
+- 12-week tracker
+- 12-week training plan
+- 12-week nutrition plan
+- hotel WOD generator
+- 2-week pull-up program
+- 2-week double-under program
 
-New backup features:
-- Export data downloads a JSON backup of your tracker state
-- Import data restores a previously exported JSON backup
-- Useful before changing phones, browsers, or clearing data
+New in v2:
+- easier week navigation with previous/next/current week controls
+- a more fun tracker dashboard with momentum and streaks
+- collapsing toolbar with separate views for each tool
+- export/import for tracker backups
 
-GitHub Pages:
+## GitHub Pages
 1. Create a new GitHub repository.
 2. Upload all files to the repo root.
 3. Go to Settings > Pages.
