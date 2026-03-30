@@ -208,10 +208,11 @@ canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);bor
     <div class="program-header"><h2>Start New Cycle</h2><div class="muted">Import a cycle file, preview it, then activate it</div></div>
     <div class="program-body">
       <div class="inline-row" style="margin-bottom:14px">
-        <button class="primary" onclick="document.getElementById('cycleFileInput').click()">Load Cycle File</button>
+        <button class="primary" id="loadCycleBtn">Load Cycle File</button>
         <button class="ghost" id="copySpecBtn">Copy Cycle File Spec</button>
         <button class="ghost" id="downloadSampleBtn">Download Sample File</button>
         <input id="cycleFileInput" type="file" accept=".json,application/json" class="hidden">
+        <div id="cycleLoadStatus" class="muted" style="margin-top:8px">No cycle file loaded yet.</div>
       </div>
       <div class="stats-grid">
         <div class="card"><h3>Cycle Preview</h3><div id="cyclePreview">No cycle file loaded yet.</div></div>
@@ -232,7 +233,7 @@ canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);bor
           <h3>Data</h3>
           <div class="inline-row">
             <button class="primary" onclick="exportBackup()">Export data</button>
-            <button class="ghost" onclick="document.getElementById('importFile').click()">Import data</button>
+            <button class="ghost" id="settingsImportBtn">Import data</button>
             <input id="importFileSettings" type="file" accept=".json,application/json" class="hidden">
           </div>
           <div class="muted" style="margin-top:10px">Back up your cycles, archive, stats, and weight log.</div>
@@ -439,7 +440,7 @@ function renderArchive(){
   appState.archive.slice().reverse().forEach(c=>{const div=document.createElement('div'); div.className='archive-item'; const s=c.stats||{}; div.innerHTML=`<div class="check-title">${c.title}</div><div class="muted">${c.start_date} to ${c.end_date}</div><div style="margin-top:8px;font-size:.9rem">Nutrition: ${s.nutrition_days||0} · Classes: ${s.class_days||0} · Goals: ${s.weekly_goals_completed||0} · Weight: ${s.start_weight!=null?s.start_weight+' lb':'—'} → ${s.end_weight!=null?s.end_weight+' lb':'—'}</div>`; list.appendChild(div);});
 }
 function renderManage(){document.getElementById('specBox').textContent=JSON.stringify(cycleSpecTemplate,null,2); document.getElementById('cycleStartDate').value=isoDate(startOfMonday(new Date())); updateCyclePreview();}
-function updateCyclePreview(){document.getElementById('cyclePreview').innerHTML=pendingCycle?`<div class="check-title">${pendingCycle.cycle.title}</div><div class="muted">${pendingCycle.cycle.duration_weeks} weeks</div><div style="margin-top:8px">${pendingCycle.weeks.length} week definitions · ${pendingCycle.tracking.daily_checks.length} daily checks · ${pendingCycle.tracking.weekly_fields.length} weekly fields</div>`:'No cycle file loaded yet.';}
+function updateCyclePreview(){document.getElementById('cyclePreview').innerHTML=pendingCycle?`<div class="check-title">${pendingCycle.cycle.title}</div><div class="muted">${pendingCycle.cycle.duration_weeks} weeks</div><div style="margin-top:8px">${pendingCycle.weeks.length} week definitions · ${pendingCycle.tracking.daily_checks.length} daily checks · ${pendingCycle.tracking.weekly_fields.length} weekly fields</div>`:'No cycle file loaded yet.'; const status=document.getElementById('cycleLoadStatus'); if(status) status.textContent=pendingCycle?`Loaded: ${pendingCycle.cycle.title}`:'No cycle file loaded yet.';}
 function validateCycleProgram(p){if(!p||p.spec_version!=='1.0') throw new Error('Unsupported spec version.'); if(!p.cycle||!p.tracking||!p.weeks||!p.workout_guidance||!p.nutrition_guidance) throw new Error('Missing required top-level fields.'); if(p.cycle.duration_weeks!==8) throw new Error('This app expects 8-week cycles.'); if(!Array.isArray(p.weeks)||p.weeks.length!==8) throw new Error('Cycle must contain exactly 8 weeks.'); p.weeks.forEach((w,i)=>{if(w.week_number!==i+1) throw new Error('Weeks must be numbered 1 through 8 in order.'); if(!Array.isArray(w.goals)||w.goals.length!==4) throw new Error('Each week must contain exactly 4 goals.');});}
 function archiveCurrentCycle(){const c=activeCycle(); if(!c) return; const copy=clone(c), weights=getWeightEntriesCycle(c), first=weights[0], last=weights[weights.length-1]; copy.archived_at=new Date().toISOString(); copy.stats={nutrition_days:Object.values(c.tracker_data.daily||{}).filter(v=>v.nutrition).length,class_days:Object.values(c.tracker_data.daily||{}).filter(v=>v.class).length,weekly_goals_completed:Object.values(c.tracker_data.weekly||{}).reduce((s,w)=>s+Object.values(w.goals||{}).filter(Boolean).length,0),start_weight:first?Number(first.weight):null,end_weight:last?Number(last.weight):null,weight_entry_count:weights.length}; appState.archive.push(copy);}
 function startNewCycle(program,startDate){validateCycleProgram(program); if(appState.active_cycle) archiveCurrentCycle(); const start=startOfMonday(parseISO(startDate)); const end=new Date(start); end.setDate(start.getDate()+55); appState.active_cycle={cycle_id:'cycle_'+Date.now(),title:program.cycle.title,start_date:isoDate(start),end_date:isoDate(end),spec_version:program.spec_version,program:clone(program),tracker_data:{daily:{},weekly:{}}}; saveAndRender();}
@@ -482,8 +483,11 @@ function attach(){
   document.getElementById('saveWeightBtn').addEventListener('click',()=>addWeightEntry(document.getElementById('weightInput').value, document.getElementById('weightNoteInput').value));
   document.querySelectorAll('.weight-mode').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.weight-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); weightGraphMode=btn.dataset.mode; drawWeightGraph((appState.profile.weight_log||[]).slice().sort((a,b)=>a.date.localeCompare(b.date)));}));
   document.getElementById('importFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});
-  const importSettings=document.getElementById('importFileSettings'); if(importSettings){importSettings.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});}
-  document.getElementById('cycleFileInput').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const parsed=JSON.parse(reader.result); validateCycleProgram(parsed); pendingCycle=parsed; updateCyclePreview(); alert('Cycle file loaded.');}catch(err){alert(err.message||'Could not load cycle file.');}}; reader.readAsText(f); e.target.value='';});
+  const importSettings=document.getElementById('importFileSettings');
+  if(importSettings){importSettings.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});}
+  document.getElementById('settingsImportBtn')?.addEventListener('click',()=>document.getElementById('importFileSettings')?.click());
+  document.getElementById('loadCycleBtn')?.addEventListener('click',()=>document.getElementById('cycleFileInput')?.click());
+  document.getElementById('cycleFileInput').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; const status=document.getElementById('cycleLoadStatus'); const reader=new FileReader(); reader.onload=()=>{try{const parsed=JSON.parse(reader.result); validateCycleProgram(parsed); pendingCycle=parsed; updateCyclePreview(); if(status) status.textContent='Loaded: '+(parsed.cycle?.title||f.name); alert('Cycle file loaded.');}catch(err){if(status) status.textContent='Cycle file could not be loaded.'; alert(err.message||'Could not load cycle file.');}}; reader.onerror=()=>{if(status) status.textContent='Cycle file could not be read.'; alert('Could not read cycle file.');}; reader.readAsText(f); e.target.value='';});
   document.getElementById('startCycleBtn').addEventListener('click',()=>{if(!pendingCycle){alert('Load a cycle file first.'); return;} startNewCycle(pendingCycle, document.getElementById('cycleStartDate').value); alert('New cycle started.');});
   document.getElementById('copySpecBtn').addEventListener('click',copySpec);
   document.getElementById('downloadSampleBtn').addEventListener('click',downloadSample);
