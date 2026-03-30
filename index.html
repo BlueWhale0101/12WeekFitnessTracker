@@ -15,7 +15,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Hel
 linear-gradient(rgba(11,17,20,.92),rgba(11,17,20,.96)),
 url('icons/icon-1024.png') center top / 900px auto no-repeat fixed,
 var(--bg);color:var(--text);line-height:1.45}
-.wrap{max-width:1100px;margin:0 auto;padding:18px 14px 64px}
+.wrap{max-width:1100px;margin:0 auto;padding:14px 14px 64px}
 .hero{background:linear-gradient(135deg,#3b1f12,#ea580c);color:#fff;border-radius:22px;padding:24px 22px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.06)}
 .hero h1{margin:0 0 10px;font-size:1.9rem;line-height:1.1}.hero p{margin:0;max-width:900px;opacity:.96}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 button{appearance:none;border:none;border-radius:12px;padding:11px 14px;font-size:.95rem;font-weight:700;cursor:pointer}
@@ -55,12 +55,6 @@ canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);bor
 </head>
 <body>
 <div class="wrap">
-<section class="hero">
-  <h1>CrossFit Toolkit v3</h1>
-  <p>An 8-week cycle system with a compact daily home screen, cycle import/archive, subtle weight tracking, and your extra training tools.</p>
-  
-</section>
-
 <section class="toolbar-shell">
   <button class="toolbar-toggle" id="toolbarToggle">☰ Views</button>
   <div class="toolbar-panel hidden" id="toolbarPanel">
@@ -79,9 +73,10 @@ canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);bor
 </section>
 
 <section id="homeView" class="view active">
-  <div class="card" style="background:linear-gradient(rgba(18,26,31,.88),rgba(18,26,31,.96)), url('icons/icon-512.png') right 18px center / 120px auto no-repeat"><h2 id="homeCycleTitle">No active cycle</h2>
-    <div class="muted" id="homeCycleMeta">Import a cycle to get started.</div>
-    <div class="progress-bar"><div class="progress-fill" id="homeCycleFill"></div></div>
+  <div class="card" style="background:linear-gradient(135deg, rgba(59,31,18,.96), rgba(234,88,12,.94)), url('icons/icon-512.png') right 18px center / 140px auto no-repeat; color:#fff; border:1px solid rgba(255,255,255,.08); box-shadow:0 10px 30px rgba(0,0,0,.32)">
+    <h2 id="homeCycleTitle" style="color:#fff">No active cycle</h2>
+    <div id="homeCycleMeta" style="color:rgba(255,255,255,.88); font-size:.96rem">Import a cycle to get started.</div>
+    <div class="progress-bar" style="background:rgba(0,0,0,.18); border-color:rgba(255,255,255,.12)"><div class="progress-fill" id="homeCycleFill"></div></div>
   </div>
   <div class="card">
     <div class="inline-row" style="justify-content:space-between">
@@ -97,6 +92,7 @@ canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);bor
   <div class="card">
     <div class="today-count" id="todayCount">TODAY (0 / 0)</div>
     <div id="homeTodayChecks"></div>
+    <div class="complete-banner" id="homeDayComplete">Day complete ✅</div>
   </div>
   <div class="card">
     <div class="collapsible-header" id="weightToggle">
@@ -363,6 +359,8 @@ function renderHome(){
   const todayWrap=document.getElementById('homeTodayChecks'); todayWrap.innerHTML=''; let todayDone=0;
   checks.forEach(ch=>{const row=document.createElement('label'); row.className='check-item'+(ch.id==='minimum_day'?' minimum-lite':''); row.innerHTML=`<input type="checkbox" ${dayState[ch.id]?'checked':''}><div><div class="check-title">${ch.label}${ch.id==='minimum_day'?' (backup)':''}</div></div>`; if(dayState[ch.id]) todayDone++; row.querySelector('input').addEventListener('change',e=>{dayState[ch.id]=e.target.checked; saveAndRender(false);}); todayWrap.appendChild(row);});
   document.getElementById('todayCount').textContent=`TODAY (${todayDone} / ${checks.length})`;
+  const dayComplete = ((!!dayState.class && !!dayState.nutrition) || !!dayState.minimum_day);
+  document.getElementById('homeDayComplete').classList.toggle('show', dayComplete);
 
   const weights=(appState.profile.weight_log||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
   const last=weights[weights.length-1];

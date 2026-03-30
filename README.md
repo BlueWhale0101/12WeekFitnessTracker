@@ -34,3 +34,9 @@ Updated UI changes:
 - settings view for infrequent actions
 - home subtitle now shows cycle description
 - activation start date width fixed for mobile
+
+
+Latest home UI tweaks:
+- removed top app banner
+- cycle card now serves as top hero section with orange tiger theme
+- day completion check appears when class + nutrition are done or minimum day is checked
