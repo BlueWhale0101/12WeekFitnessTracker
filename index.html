@@ -482,13 +482,14 @@ function attach(){
   document.getElementById('weightToggle').addEventListener('click',()=>{document.getElementById('weightBody').classList.toggle('hidden'); document.getElementById('weightChevron').textContent=document.getElementById('weightBody').classList.contains('hidden')?'▾':'▴';});
   document.getElementById('saveWeightBtn').addEventListener('click',()=>addWeightEntry(document.getElementById('weightInput').value, document.getElementById('weightNoteInput').value));
   document.querySelectorAll('.weight-mode').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.weight-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); weightGraphMode=btn.dataset.mode; drawWeightGraph((appState.profile.weight_log||[]).slice().sort((a,b)=>a.date.localeCompare(b.date)));}));
-  document.getElementById('importFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});
   const importSettings=document.getElementById('importFileSettings');
-  if(importSettings){importSettings.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});}
+  if(importSettings){
+    importSettings.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});
+  }
   document.getElementById('settingsImportBtn')?.addEventListener('click',()=>document.getElementById('importFileSettings')?.click());
   document.getElementById('loadCycleBtn')?.addEventListener('click',()=>document.getElementById('cycleFileInput')?.click());
   document.getElementById('cycleFileInput').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; const status=document.getElementById('cycleLoadStatus'); const reader=new FileReader(); reader.onload=()=>{try{const parsed=JSON.parse(reader.result); validateCycleProgram(parsed); pendingCycle=parsed; updateCyclePreview(); if(status) status.textContent='Loaded: '+(parsed.cycle?.title||f.name); alert('Cycle file loaded.');}catch(err){if(status) status.textContent='Cycle file could not be loaded.'; alert(err.message||'Could not load cycle file.');}}; reader.onerror=()=>{if(status) status.textContent='Cycle file could not be read.'; alert('Could not read cycle file.');}; reader.readAsText(f); e.target.value='';});
-  document.getElementById('startCycleBtn').addEventListener('click',()=>{if(!pendingCycle){alert('Load a cycle file first.'); return;} startNewCycle(pendingCycle, document.getElementById('cycleStartDate').value); alert('New cycle started.');});
+  document.getElementById('startCycleBtn').addEventListener('click',()=>{if(!pendingCycle){alert('Load a cycle file first.'); return;} const startVal=document.getElementById('cycleStartDate').value; if(!startVal){alert('Pick a start date first.'); return;} startNewCycle(pendingCycle, startVal); alert('New cycle started.');});
   document.getElementById('copySpecBtn').addEventListener('click',copySpec);
   document.getElementById('downloadSampleBtn').addEventListener('click',downloadSample);
   document.getElementById('generateBtn').addEventListener('click',generateWorkout);
