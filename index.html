@@ -1,241 +1,428 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0f766e">
-<title>CrossFit Toolkit v2</title>
+<title>CrossFit Toolkit v3</title>
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <style>
-:root{--bg:#f7f7f5;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#0f766e;--accent-dark:#134e4a;--accent-light:#d1fae5;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--warning-bg:#fffbeb;--warning-text:#92400e}
+:root{--bg:#f7f7f5;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#0f766e;--accent-dark:#134e4a;--accent-light:#d1fae5;--border:#e5e7eb;--shadow:0 8px 24px rgba(0,0,0,.06);--warn-bg:#fffbeb;--warn:#92400e}
 *{box-sizing:border-box} html{scroll-behavior:smooth}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}
-.wrap{max-width:1180px;margin:0 auto;padding:18px 14px 64px}
-.hero{background:linear-gradient(135deg,var(--accent-dark),var(--accent));color:#fff;border-radius:22px;padding:26px 24px;margin-bottom:18px;box-shadow:var(--shadow)}
-.hero h1{margin:0 0 10px;font-size:2rem;line-height:1.1}.hero p{margin:0;max-width:900px;opacity:.96}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-button,.button-link{appearance:none;border:none;border-radius:12px;padding:11px 14px;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
-.primary{background:#fff;color:var(--accent)}.secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.28)}
-.toolbar-shell{position:sticky;top:0;z-index:20;margin-bottom:16px}
-.toolbar-toggle{width:100%;text-align:left;background:var(--card);border:1px solid var(--border);color:var(--accent-dark);box-shadow:0 3px 10px rgba(0,0,0,.04)}
-.toolbar-panel{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 18px 18px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.05)}
-.toolbar-panel.hidden{display:none}
-.toolbar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-.tool-btn{background:#fafafa;border:1px solid var(--border);color:var(--text);text-align:left}
-.tool-btn.active{background:#f0fdfa;border-color:#99f6e4;color:var(--accent-dark)}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 14px 64px}
+.hero{background:linear-gradient(135deg,var(--accent-dark),var(--accent));color:#fff;border-radius:22px;padding:24px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.hero h1{margin:0 0 10px;font-size:1.9rem;line-height:1.1}.hero p{margin:0;max-width:900px;opacity:.96}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+button{appearance:none;border:none;border-radius:12px;padding:11px 14px;font-size:.95rem;font-weight:700;cursor:pointer}
+.primary{background:#fff;color:var(--accent)}.secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.28)}.ghost{background:#fafafa;color:var(--text);border:1px solid var(--border)}
+.toolbar-shell{position:sticky;top:0;z-index:20;margin-bottom:16px}.toolbar-toggle{width:100%;text-align:left;background:var(--card);border:1px solid var(--border);color:var(--accent-dark);box-shadow:0 3px 10px rgba(0,0,0,.04)}
+.toolbar-panel{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 18px 18px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.05)}.hidden{display:none!important}
+.toolbar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.tool-btn{background:#fafafa;border:1px solid var(--border);color:var(--text);text-align:left}.tool-btn.active{background:#f0fdfa;border-color:#99f6e4;color:var(--accent-dark)}
 .view{display:none}.view.active{display:block}
-.summary,.fun-strip,.content-grid,.generator-grid{display:grid;gap:14px}
-.summary{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:18px}
-.fun-strip{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:18px}
-.content-grid,.generator-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.summary-card,.fun-card,.week-card,.program-card,.output-card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.04)}
-.summary-card,.fun-card,.section-card,.program-body,.output-body{padding:16px}
-.summary-card .label,.label,.week-range,.footer{color:var(--muted);font-size:.92rem}.summary-card .value{font-size:1.55rem;font-weight:800;color:var(--accent)}
-.fun-card h3,.section-card h3{margin:0 0 10px;color:var(--accent-dark);font-size:1rem}
-.progress-bar{height:12px;border-radius:999px;background:#ecfeff;overflow:hidden;border:1px solid var(--border)}
-.progress-fill{height:100%;background:linear-gradient(90deg,#14b8a6,#0f766e);width:0%}
-.calendar-nav{display:flex;gap:10px;overflow:auto;padding-bottom:10px;margin-bottom:16px;align-items:center}
-.calendar-chip{white-space:nowrap;background:#fff;border:1px solid var(--border);border-radius:999px;padding:9px 14px;font-weight:700;color:var(--accent-dark);text-decoration:none}
-.calendar-chip.active{background:#f0fdfa}
+.card,.program-card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.04);padding:16px;margin-bottom:14px}
+.program-card{padding:0;overflow:hidden}.program-header{padding:18px;background:#f0fdfa;border-bottom:1px solid var(--border)}.program-body{padding:16px}
+.summary,.stats-grid,.content-grid,.generator-grid,.toolbar-grid2{display:grid;gap:14px}.summary,.stats-grid,.content-grid,.generator-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.summary-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.04)}.summary-card .label,.muted,.footer{color:var(--muted);font-size:.92rem}.summary-card .value{font-size:1.55rem;font-weight:800;color:var(--accent)}
+.progress-bar{height:12px;border-radius:999px;background:#ecfeff;overflow:hidden;border:1px solid var(--border);margin-top:10px}.progress-fill{height:100%;background:linear-gradient(90deg,#14b8a6,#0f766e);width:0%}
+.streak-big{font-size:1.8rem;font-weight:800;color:var(--accent)}
+.check-item{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 12px;margin:10px 0}.check-item input[type=checkbox]{width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex:0 0 auto}
+.check-title{font-weight:700}.mini-progress{font-weight:800;color:var(--accent-dark)}.complete-banner{margin-top:10px;padding:10px 12px;border-radius:12px;background:#ecfdf5;color:#065f46;font-weight:700;display:none}.complete-banner.show{display:block}
+.today-count{font-weight:800;color:var(--accent-dark);margin-bottom:8px}.minimum-lite{opacity:.78}
+.inline-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=text],input[type=number],input[type=date],textarea,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);font:inherit;background:#fff;color:var(--text)}
+textarea{min-height:96px;resize:vertical}.collapsible-header{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.calendar-nav{display:flex;gap:10px;overflow:auto;padding-bottom:10px;margin-bottom:16px}.calendar-chip{white-space:nowrap;background:#fff;border:1px solid var(--border);border-radius:999px;padding:9px 14px;font-weight:700;color:var(--accent-dark);text-decoration:none}.calendar-chip.active{background:#f0fdfa}
 .week-jump{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.week-card,.program-card,.output-card{overflow:hidden;margin-bottom:16px;scroll-margin-top:86px}
-.week-header,.program-header{padding:18px;background:#f0fdfa;border-bottom:1px solid var(--border)}
-.week-header h2,.program-header h2{margin:0 0 6px;color:var(--accent-dark)}
-.phase-badge{display:inline-block;background:var(--accent-light);color:#065f46;padding:5px 10px;border-radius:999px;font-size:.82rem;font-weight:700;margin-top:8px}
-.week-grid{display:grid;grid-template-columns:1.18fr 1fr;gap:18px;padding:18px}
-.section-card{background:#fafafa;border:1px solid var(--border);border-radius:16px}
-.check-list,.days-list,.day-checks,.mini-grid{display:grid;gap:10px}
-.check-item{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 12px}
-.check-item input[type=checkbox]{width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex:0 0 auto}
-.check-title{font-weight:700;margin-bottom:2px}.check-sub{color:var(--muted);font-size:.9rem}
-.day-row{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px}
-.day-top{margin-bottom:10px}.day-name{font-weight:800;font-size:1rem}.date-text{color:var(--muted);font-size:.92rem;margin-top:2px}
-.weighin-row,.notes-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;padding:12px;background:#fff;border:1px solid var(--border);border-radius:12px}
-.weighin-row label,.notes-row label{font-weight:700;width:100%}
-.weighin-row input[type=text],.notes-row textarea,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);font:inherit;background:#fff}
-.weighin-row input[type=text]{max-width:240px}.notes-row textarea{min-height:96px;resize:vertical}
-.note{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--warning-bg);color:var(--warning-text);font-size:.92rem}
-.week-block{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:16px}
-.week-block-header{background:#f0fdfa;padding:14px 16px;border-bottom:1px solid var(--border)}
-.week-day{padding:14px 16px;border-top:1px solid var(--border)}.week-day:first-child{border-top:none}
-.format-badge{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--accent-light);color:#065f46;font-weight:700;font-size:.84rem;margin-bottom:12px}
-.workout-text{font-size:1.05rem;white-space:pre-line}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.chip{background:#fafafa;border:1px solid var(--border);border-radius:999px;padding:7px 10px;font-size:.88rem;color:var(--muted);font-weight:600}
-.hidden{display:none!important}
-@media (max-width:900px){.week-grid{grid-template-columns:1fr}}
-@media print{body{background:white}.wrap{max-width:none;padding:0}.hero,.summary-card,.fun-card,.week-card,.section-card,.program-card,.output-card{box-shadow:none}.toolbar-shell,.hero-actions,.calendar-nav,.week-jump{display:none!important}}
+.week-card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 3px 10px rgba(0,0,0,.04);overflow:hidden;margin-bottom:16px}.week-header{padding:18px;background:#f0fdfa;border-bottom:1px solid var(--border)}.week-header h2{margin:0 0 6px;color:var(--accent-dark)}
+.week-grid{display:grid;grid-template-columns:1.18fr 1fr;gap:18px;padding:18px}.section-card{background:#fafafa;border:1px solid var(--border);border-radius:16px;padding:16px}
+.day-row{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}.day-name{font-weight:800}.date-text{color:var(--muted);font-size:.92rem;margin:2px 0 10px}
+.phase-badge,.format-badge{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--accent-light);color:#065f46;font-weight:700;font-size:.82rem}.note{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--warn-bg);color:var(--warn);font-size:.92rem}
+.week-block{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:16px}.week-block-header{background:#f0fdfa;padding:14px 16px;border-bottom:1px solid var(--border)}.week-day{padding:14px 16px;border-top:1px solid var(--border)}.week-day:first-child{border-top:none}
+.workout-text{font-size:1.05rem;white-space:pre-line}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{background:#fafafa;border:1px solid var(--border);border-radius:999px;padding:7px 10px;font-size:.88rem;color:var(--muted);font-weight:600}
+.archive-item{padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff;margin-bottom:10px}
+.code-box{background:#0f172a;color:#e2e8f0;border-radius:14px;padding:14px;overflow:auto;font-size:.86rem;line-height:1.5}
+canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.table-wrap{overflow:auto} table{width:100%;border-collapse:collapse} th,td{padding:10px 12px;border:1px solid var(--border);text-align:left;font-size:.94rem} th{background:#f0fdfa;color:var(--accent-dark)}
+@media (max-width:900px){.week-grid{grid-template-columns:1fr}} @media print{body{background:white}.wrap{max-width:none;padding:0}.hero,.card,.program-card,.summary-card,.week-card,.section-card{box-shadow:none}.toolbar-shell,.hero-actions,.calendar-nav,.week-jump,.quick-grid button,#weightGraphControls{display:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <section class="hero">
-<h1>CrossFit Toolkit v2</h1>
-<p>Your tracker, training plan, nutrition guide, hotel workout generator, pull-up program, and double-under program in one app. This version adds easier week navigation, a more fun tracker dashboard, and a collapsing toolbar for switching tools.</p>
-<div class="hero-actions">
-<button class="primary" onclick="window.print()">Print / Save as PDF</button>
-<button class="primary" onclick="exportBackup()">Export data</button>
-<button class="primary" onclick="document.getElementById('importFile').click()">Import data</button>
-<button class="secondary" onclick="resetAll()">Reset tracker progress</button>
-<input id="importFile" type="file" accept=".json,application/json" class="hidden">
-</div>
+  <h1>CrossFit Toolkit v3</h1>
+  <p>An 8-week cycle system with a compact daily home screen, cycle import/archive, subtle weight tracking, and your extra training tools.</p>
+  <div class="hero-actions">
+    <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="primary" onclick="exportBackup()">Export data</button>
+    <button class="primary" onclick="document.getElementById('importFile').click()">Import data</button>
+    <button class="secondary" onclick="resetActiveCycle()">Reset active cycle tracker</button>
+    <input id="importFile" type="file" accept=".json,application/json" class="hidden">
+  </div>
 </section>
 
 <section class="toolbar-shell">
-<button class="toolbar-toggle" id="toolbarToggle">☰ Tools & Views</button>
-<div class="toolbar-panel hidden" id="toolbarPanel">
-<div class="toolbar-grid">
-<button class="tool-btn active" data-view="trackerView">12-Week Tracker</button>
-<button class="tool-btn" data-view="trainingView">12-Week Training Plan</button>
-<button class="tool-btn" data-view="nutritionView">12-Week Nutrition Plan</button>
-<button class="tool-btn" data-view="hotelView">Hotel WOD Generator</button>
-<button class="tool-btn" data-view="pullupView">2-Week Pull-Up Program</button>
-<button class="tool-btn" data-view="duView">2-Week Double-Under Program</button>
-</div></div></section>
-
-<section id="trackerView" class="view active">
-<section class="summary">
-<div class="summary-card"><div class="label">Nutrition days completed</div><div class="value" id="nutritionCount">0 / 84</div></div>
-<div class="summary-card"><div class="label">CrossFit classes completed</div><div class="value" id="classCount">0 / 84</div></div>
-<div class="summary-card"><div class="label">Weekly workout items completed</div><div class="value" id="weeklyCount">0 / 72</div></div>
-<div class="summary-card"><div class="label">Weigh-ins entered</div><div class="value" id="weighinCount">0 / 12</div></div>
-</section>
-<section class="fun-strip">
-<div class="fun-card"><h3>Overall momentum</h3><div class="progress-bar"><div class="progress-fill" id="overallFill"></div></div><p id="overallText" style="margin-top:10px;">0% complete</p></div>
-<div class="fun-card"><h3>Current streak</h3><div style="font-size:1.8rem;font-weight:800;color:var(--accent)" id="streakText">0 days</div><p style="margin-top:8px;color:var(--muted)">Counts days with at least one box checked.</p></div>
-<div class="fun-card"><h3>This week snapshot</h3><div id="thisWeekText" style="font-size:1rem;font-weight:700;color:var(--accent-dark)">Week 1 not started yet</div><p style="margin-top:8px;color:var(--muted)">Quick view of your current week progress.</p></div>
-</section>
-<div class="week-jump">
-<button class="primary" id="prevWeekBtn">← Previous week</button>
-<button class="primary" id="nextWeekBtn">Next week →</button>
-<button class="secondary" id="currentWeekBtn">Jump to current week</button>
-</div>
-<nav class="calendar-nav" id="calendarNav"></nav>
-<div id="weeksContainer"></div>
+  <button class="toolbar-toggle" id="toolbarToggle">☰ Views</button>
+  <div class="toolbar-panel hidden" id="toolbarPanel">
+    <div class="toolbar-grid">
+      <button class="tool-btn active" data-view="homeView">Home</button>
+      <button class="tool-btn" data-view="weekView">Week</button>
+      <button class="tool-btn" data-view="cycleView">Cycle</button>
+      <button class="tool-btn" data-view="guidesView">Guides</button>
+      <button class="tool-btn" data-view="toolsView">Tools</button>
+      <button class="tool-btn" data-view="statsView">Stats</button>
+      <button class="tool-btn" data-view="archiveView">Archive</button>
+      <button class="tool-btn" data-view="manageView">New Cycle</button>
+    </div>
+  </div>
 </section>
 
-<section id="trainingView" class="view">
-<div class="program-card"><div class="program-header"><h2>12-Week CrossFit Improvement Plan</h2><div class="week-range">Focus: pacing, engine, and body-composition-friendly training structure</div></div>
-<div class="program-body">
-<div class="content-grid">
-<div class="section-card"><h3>Core weekly structure</h3><ul><li>Keep 5 CrossFit classes each week</li><li>Add 2–3 Zone 2 sessions</li><li>Add 1 interval session</li><li>Add 1 pacing-focus day each week</li><li>Add 1 engine builder and 2 clean-efficiency sessions</li></ul></div>
-<div class="section-card"><h3>Main rules</h3><ul><li>First half of hard workouts at 70–75% effort</li><li>Do not bank time early</li><li>Zone 2 should feel conversational</li><li>Intervals should finish controlled, not trashed</li><li>Consistency beats hero days</li></ul></div>
-<div class="section-card"><h3>What success looks like</h3><ul><li>Better pacing on long workouts</li><li>Less dramatic fade after minute 5–6</li><li>More consistent barbell work under fatigue</li><li>Improved 2k row capacity over the cycle</li></ul></div>
-</div>
-<div class="week-block"><div class="week-block-header"><strong>Phase 1 · Weeks 1–4 · Base Build</strong><br><span class="week-range">Build aerobic base and rhythm without redlining everything.</span></div><div class="week-day"><strong>Zone 2:</strong> 2–3 sessions of 30–35 min at easy conversational pace</div><div class="week-day"><strong>Intervals:</strong> 5 × 400 m row, 2 min rest, controlled pace</div><div class="week-day"><strong>Engine builder:</strong> 12 min steady of 10 burpees + 8 cleans + 8 thrusters</div><div class="week-day"><strong>Clean work:</strong> 2 sessions of EMOM 10 min, 1–2 moderate cleans</div><div class="week-day"><strong>Pacing cue:</strong> deliberately finish workouts stronger than you start</div></div>
-<div class="week-block"><div class="week-block-header"><strong>Phase 2 · Weeks 5–8 · Capacity Build</strong><br><span class="week-range">Increase work density while staying controlled.</span></div><div class="week-day"><strong>Zone 2:</strong> 2–3 sessions of 35–45 min</div><div class="week-day"><strong>Intervals:</strong> 6 × 500 m row, 90 sec rest</div><div class="week-day"><strong>Engine builder:</strong> 15 min steady of 12 burpees + 10 cleans + 10 thrusters</div><div class="week-day"><strong>Clean work:</strong> same EMOM structure, slightly sharper execution</div><div class="week-day"><strong>Pacing cue:</strong> first round is setup, not a race</div></div>
-<div class="week-block"><div class="week-block-header"><strong>Phase 3 · Weeks 9–12 · Endurance & Control</strong><br><span class="week-range">Turn the engine into repeatable performance.</span></div><div class="week-day"><strong>Zone 2:</strong> 2–3 sessions of 45–50 min</div><div class="week-day"><strong>Intervals:</strong> 5 × 600 m row, 90 sec rest</div><div class="week-day"><strong>Engine builder:</strong> 18 min steady of 12 burpees + 12 cleans + 12 thrusters</div><div class="week-day"><strong>Clean work:</strong> calm fast singles under fatigue</div><div class="week-day"><strong>Pacing cue:</strong> hunt people down late instead of dying early</div></div>
-</div></div>
+<section id="homeView" class="view active">
+  <div class="card">
+    <h2 id="homeCycleTitle">No active cycle</h2>
+    <div class="muted" id="homeCycleMeta">Import a cycle to get started.</div>
+    <div class="progress-bar"><div class="progress-fill" id="homeCycleFill"></div></div>
+  </div>
+  <div class="card">
+    <div class="inline-row" style="justify-content:space-between">
+      <div><div class="muted">Current streak</div><div class="streak-big" id="homeStreak">0 days</div></div>
+      <div style="text-align:right"><div class="muted">Best</div><div style="font-weight:800;color:var(--accent-dark)" id="homeBestStreak">0 days</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="inline-row" style="justify-content:space-between"><h2 style="margin:0">Weekly goals</h2><div class="mini-progress" id="homeWeeklyProgress">0 / 4</div></div>
+    <div id="homeWeeklyGoals"></div>
+    <div class="complete-banner" id="homeWeekComplete">Week complete ✅</div>
+  </div>
+  <div class="card">
+    <div class="today-count" id="todayCount">TODAY (0 / 0)</div>
+    <div id="homeTodayChecks"></div>
+  </div>
+  <div class="card">
+    <div class="collapsible-header" id="weightToggle">
+      <div><h3 style="margin:0">Weight check-in</h3><div class="muted" id="homeWeightSummary">No entries yet</div></div>
+      <div id="weightChevron">▾</div>
+    </div>
+    <div class="hidden" id="weightBody" style="margin-top:12px">
+      <div class="inline-row"><input type="number" step="0.1" id="weightInput" placeholder="Enter weight"><button class="ghost" id="saveWeightBtn">Save</button></div>
+      <input type="text" id="weightNoteInput" placeholder="Optional note">
+      <div class="muted" style="margin-top:10px">Daily optional. Weekly consistency is enough. Trends matter more than single days.</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Quick actions</h3>
+    <div class="quick-grid">
+      <button class="ghost" data-nav-view="weekView">Week</button>
+      <button class="ghost" id="goWorkoutGuideBtn">Workout</button>
+      <button class="ghost" id="goNutritionGuideBtn">Nutrition</button>
+      <button class="ghost" data-nav-view="manageView">New Cycle</button>
+    </div>
+  </div>
 </section>
 
-<section id="nutritionView" class="view">
-<div class="program-card"><div class="program-header"><h2>Nutrition Strategy for Performance, Fat Loss & Real Life</h2><div class="week-range">Simple rules for cafeteria life, weekends, restaurants, and quick recovery after off-plan meals</div></div>
-<div class="program-body">
-<div class="content-grid">
-<div class="section-card"><h3>Core strategy</h3><ul><li>Protein at every meal</li><li>Visual portions instead of calorie tracking</li><li>Protein + veggies first, then choose one extra</li><li>No invisible snacking</li><li>Next meal resets everything</li></ul></div>
-<div class="section-card"><h3>Cafeteria defaults</h3><ul><li>Breakfast: eggs, omelette, Greek yogurt, fruit</li><li>Lunch: half plate protein + veg, quarter carbs</li><li>Dinner: protein + vegetables, carbs as needed</li><li>Prefer grilled/simple meals over creamy/fried mixed dishes</li></ul></div>
-<div class="section-card"><h3>Weekend rules</h3><ul><li>1–2 drinks can fit</li><li>Choose one indulgence per meal: fries, dessert, or drinks</li><li>Plate your snacks instead of grazing</li><li>Walk, hydrate, and reset fast after big meals</li></ul></div>
-</div>
-<div class="week-block"><div class="week-block-header"><strong>Restaurant defaults</strong></div><div class="week-day"><strong>Domino’s:</strong> thin crust, protein/veg toppings, about 2–3 slices</div><div class="week-day"><strong>Bella Alice:</strong> protein-focused entrée + veg, or stop around 75% on pasta</div><div class="week-day"><strong>Confucius Dumplings:</strong> about 10–12 dumplings plus vegetables or soup</div></div>
-<div class="week-block"><div class="week-block-header"><strong>Damage control</strong></div><div class="week-day">Next meal: protein + vegetables</div><div class="week-day">Hydrate hard after salty food or alcohol</div><div class="week-day">Take a 20–40 minute walk</div><div class="week-day">Do not punish yourself with fasting or revenge workouts</div><div class="week-day">Use the next 3 meals to restore structure</div></div>
-</div></div>
+<section id="weekView" class="view">
+  <div class="week-jump">
+    <button class="primary" id="prevWeekBtn">← Previous week</button>
+    <button class="secondary" id="currentWeekBtn">Current week</button>
+    <button class="primary" id="nextWeekBtn">Next week →</button>
+  </div>
+  <nav class="calendar-nav" id="calendarNav"></nav>
+  <div id="weekContainer"></div>
 </section>
 
-<section id="hotelView" class="view">
-<div class="output-card"><div class="program-header"><h2>Hotel WOD Generator</h2><div class="week-range">Random 10–20 minute CrossFit-style workouts for solo or friend sessions</div></div>
-<div class="output-body">
-<div class="generator-grid">
-<div><div class="label">Equipment</div><select id="equipmentMode"><option value="none">No equipment</option><option value="hotel">Hotel gym equipment okay</option></select></div>
-<div><div class="label">Duration</div><select id="durationMode"><option value="10">10 minutes</option><option value="12">12 minutes</option><option value="15" selected>15 minutes</option><option value="18">18 minutes</option><option value="20">20 minutes</option></select></div>
-<div><div class="label">Workout vibe</div><select id="styleMode"><option value="any">Any</option><option value="solo">Solo</option><option value="partner">With a friend</option></select></div>
-<div><div class="label">Intensity</div><select id="intensityMode"><option value="fun" selected>Fun but not death</option><option value="spicy">A bit spicy</option></select></div>
-</div>
-<div class="hero-actions" style="margin-top:0;margin-bottom:14px"><button class="primary" id="generateBtn">Generate workout</button><button class="primary" id="rerollBtn">Reroll same settings</button></div>
-<div class="format-badge" id="formatBadge">Ready</div>
-<div class="workout-text" id="workoutText">Tap “Generate workout” to get started.</div>
-<div class="chips" id="tagChips"></div>
-<div class="note" id="coachNote" style="margin-top:16px;background:#f0fdfa;color:var(--text)">These workouts are meant to be simple, fun, and realistic for hotel travel.</div>
-</div></div>
+<section id="cycleView" class="view">
+  <div class="program-card">
+    <div class="program-header"><h2>Cycle Overview</h2><div class="muted" id="cycleOverviewMeta">No active cycle</div></div>
+    <div class="program-body" id="cycleOverviewBody"></div>
+  </div>
 </section>
 
-<section id="pullupView" class="view">
-<div class="program-card"><div class="program-header"><h2>2-Week Pull-Up Improvement Program</h2><div class="week-range">Built for an athlete with about 18 strict unbroken pull-ups</div></div>
-<div class="program-body">
-<div class="content-grid"><div class="section-card"><h3>Main focus</h3><ul><li>Submax volume</li><li>Strength via weighted or tempo work</li><li>Density and repeatability</li><li>Grip endurance</li></ul></div><div class="section-card"><h3>Main rules</h3><ul><li>Keep most sets around 60–75% of max</li><li>Do not hit failure until test day</li><li>Most sets should feel clean and repeatable</li></ul></div></div>
-<div class="week-block"><div class="week-block-header"><strong>Week 1</strong></div><div class="week-day"><strong>Day 1:</strong> 5 rounds of 6 pull-ups, rest, 8 pull-ups</div><div class="week-day"><strong>Day 2:</strong> 5 × 5 weighted or tempo pull-ups + dead hangs</div><div class="week-day"><strong>Day 3:</strong> 12-min EMOM of 5 reps, progress to some 6s if clean</div><div class="week-day"><strong>Day 4:</strong> scap pull-ups, rows, hollow hold</div><div class="week-day"><strong>Day 5:</strong> 5 × 10 pull-ups or 4 × 12</div><div class="week-day"><strong>Day 6:</strong> dead hangs and top-position holds</div><div class="week-day"><strong>Day 7:</strong> rest</div></div>
-<div class="week-block"><div class="week-block-header"><strong>Week 2</strong></div><div class="week-day"><strong>Day 8:</strong> 6 rounds of 8 pull-ups</div><div class="week-day"><strong>Day 9:</strong> 6 × 4 weighted or paused pull-ups</div><div class="week-day"><strong>Day 10:</strong> 14-min EMOM of 5s, then some 6s if clean</div><div class="week-day"><strong>Day 11:</strong> light structural day</div><div class="week-day"><strong>Day 12:</strong> 4 sets of 8–10 crisp reps</div><div class="week-day"><strong>Day 13:</strong> max strict set + 3 back-off sets</div><div class="week-day"><strong>Day 14:</strong> rest</div></div>
-</div></div>
+<section id="guidesView" class="view">
+  <div class="week-jump">
+    <button class="ghost guide-tab active" data-guide="workoutGuide">Workout Guidance</button>
+    <button class="ghost guide-tab" data-guide="nutritionGuide">Nutrition Guidance</button>
+  </div>
+  <div id="workoutGuide" class="guide-panel"></div>
+  <div id="nutritionGuide" class="guide-panel hidden"></div>
 </section>
 
-<section id="duView" class="view">
-<div class="program-card"><div class="program-header"><h2>2-Week Double-Under Endurance Program</h2><div class="week-range">Built for an athlete who can hit about 50 unbroken once, but wants repeatability</div></div>
-<div class="program-body">
-<div class="content-grid"><div class="section-card"><h3>Main focus</h3><ul><li>Turn one good set into multiple good sets</li><li>Improve breathing and rhythm</li><li>Reduce misses after fatigue starts</li></ul></div><div class="section-card"><h3>Main rules</h3><ul><li>Most sets live in the 20–40 rep range</li><li>Stay relaxed in shoulders and grip</li><li>After a miss, reset calmly instead of panic-rushing</li></ul></div></div>
-<div class="week-block"><div class="week-block-header"><strong>Week 1</strong></div><div class="week-day"><strong>Day 1:</strong> 8 rounds of 25 double unders</div><div class="week-day"><strong>Day 2:</strong> singles + doubles rhythm practice</div><div class="week-day"><strong>Day 3:</strong> 12-min EMOM alternating 20 and 25</div><div class="week-day"><strong>Day 4:</strong> rest or easy movement</div><div class="week-day"><strong>Day 5:</strong> 5 rounds of 40 reps, capped at 2 attempts each round</div><div class="week-day"><strong>Day 6:</strong> fatigue rhythm practice with simple bodyweight work</div><div class="week-day"><strong>Day 7:</strong> rest</div></div>
-<div class="week-block"><div class="week-block-header"><strong>Week 2</strong></div><div class="week-day"><strong>Day 8:</strong> 6 rounds of 30–35 reps</div><div class="week-day"><strong>Day 9:</strong> singles + 25 doubles for 10 rounds</div><div class="week-day"><strong>Day 10:</strong> 14-min EMOM alternating 25 and 30</div><div class="week-day"><strong>Day 11:</strong> rest or easy movement</div><div class="week-day"><strong>Day 12:</strong> 5 sets of 25–30 clean reps</div><div class="week-day"><strong>Day 13:</strong> max test + 3 follow-up quality sets</div><div class="week-day"><strong>Day 14:</strong> rest</div></div>
-</div></div>
+<section id="toolsView" class="view">
+  <div class="program-card">
+    <div class="program-header"><h2>Tools</h2><div class="muted">Training extras and travel tools</div></div>
+    <div class="program-body">
+      <div class="week-jump">
+        <button class="ghost tool-tab active" data-tool="hotelTool">Hotel WOD Generator</button>
+        <button class="ghost tool-tab" data-tool="pullupTool">Pull-Up Program</button>
+        <button class="ghost tool-tab" data-tool="duTool">Double-Under Program</button>
+      </div>
+      <div id="hotelTool" class="tool-panel">
+        <div class="generator-grid">
+          <div><div class="label">Equipment</div><select id="equipmentMode"><option value="none">No equipment</option><option value="hotel">Hotel gym equipment okay</option></select></div>
+          <div><div class="label">Duration</div><select id="durationMode"><option value="10">10 minutes</option><option value="12">12 minutes</option><option value="15" selected>15 minutes</option><option value="18">18 minutes</option><option value="20">20 minutes</option></select></div>
+          <div><div class="label">Workout vibe</div><select id="styleMode"><option value="any">Any</option><option value="solo">Solo</option><option value="partner">With a friend</option></select></div>
+          <div><div class="label">Intensity</div><select id="intensityMode"><option value="fun" selected>Fun but not death</option><option value="spicy">A bit spicy</option></select></div>
+        </div>
+        <div class="inline-row" style="margin:10px 0 14px"><button class="primary" id="generateBtn">Generate workout</button><button class="primary" id="rerollBtn">Reroll same settings</button></div>
+        <div class="format-badge" id="formatBadge">Ready</div>
+        <div class="workout-text" id="workoutText">Tap “Generate workout” to get started.</div>
+        <div class="chips" id="tagChips"></div>
+        <div class="note" id="coachNote" style="margin-top:16px;background:#f0fdfa;color:var(--text)">These workouts are meant to be simple, fun, and realistic for hotel travel.</div>
+      </div>
+      <div id="pullupTool" class="tool-panel hidden"></div>
+      <div id="duTool" class="tool-panel hidden"></div>
+    </div>
+  </div>
 </section>
 
-<p class="footer">v2 keeps tracker data local in your browser on this device. Use Export data for backups and Import data to restore later.</p>
+<section id="statsView" class="view">
+  <div class="stats-grid">
+    <div class="card"><h3>Cycle stats</h3><div id="cycleStatsList"></div></div>
+    <div class="card"><h3>Global stats</h3><div id="globalStatsList"></div></div>
+  </div>
+  <div class="program-card">
+    <div class="program-header"><h2>Weight Trends</h2><div class="muted">Quiet, useful trend tracking</div></div>
+    <div class="program-body">
+      <div class="stats-grid" style="margin-bottom:14px">
+        <div class="card"><div class="muted">Current</div><div class="streak-big" style="font-size:1.4rem" id="weightCurrent">—</div></div>
+        <div class="card"><div class="muted">7-day avg</div><div class="streak-big" style="font-size:1.4rem" id="weightAvg">—</div></div>
+        <div class="card"><div class="muted">Cycle change</div><div class="streak-big" style="font-size:1.4rem" id="weightChange">—</div></div>
+        <div class="card"><div class="muted">Entries this cycle</div><div class="streak-big" style="font-size:1.4rem" id="weightEntriesCycle">0</div></div>
+      </div>
+      <div class="week-jump" id="weightGraphControls"><button class="ghost weight-mode active" data-mode="trend">Trend</button><button class="ghost weight-mode" data-mode="all">All Data</button></div>
+      <canvas id="weightCanvas" width="900" height="240"></canvas>
+      <div class="muted" id="weightInterpretation" style="margin-top:10px">Add a few entries to see trends.</div>
+      <div class="table-wrap" style="margin-top:14px"><table><thead><tr><th>Date</th><th>Weight</th><th>Note</th></tr></thead><tbody id="weightTableBody"></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<section id="archiveView" class="view">
+  <div class="program-card">
+    <div class="program-header"><h2>Archive</h2><div class="muted">Past completed cycles</div></div>
+    <div class="program-body" id="archiveList"></div>
+  </div>
+</section>
+
+<section id="manageView" class="view">
+  <div class="program-card">
+    <div class="program-header"><h2>Start New Cycle</h2><div class="muted">Import a cycle file, preview it, then activate it</div></div>
+    <div class="program-body">
+      <div class="inline-row" style="margin-bottom:14px">
+        <button class="primary" onclick="document.getElementById('cycleFileInput').click()">Load Cycle File</button>
+        <button class="ghost" id="copySpecBtn">Copy Cycle File Spec</button>
+        <button class="ghost" id="downloadSampleBtn">Download Sample File</button>
+        <input id="cycleFileInput" type="file" accept=".json,application/json" class="hidden">
+      </div>
+      <div class="stats-grid">
+        <div class="card"><h3>Cycle Preview</h3><div id="cyclePreview">No cycle file loaded yet.</div></div>
+        <div class="card"><h3>Activation</h3><div class="label">Start date</div><input type="date" id="cycleStartDate"><div class="muted" style="margin-top:10px">Program file defines the plan. The app defines when you run it.</div><div class="inline-row" style="margin-top:14px"><button class="primary" id="startCycleBtn">Start Cycle</button></div></div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3>Cycle File Spec</h3><div class="code-box" id="specBox"></div></div>
+    </div>
+  </div>
+</section>
+
+<p class="footer">v3 stores an active cycle, archive, global stats, and a subtle global weight log. Importing a new cycle does not reset streaks or global stats.</p>
 </div>
 
 <script>
-const STORAGE_PREFIX='crossfit-toolkit-v2-';
-const LEGACY_PREFIXES=['crossfit-advanced-checklist-gh-v2-','crossfit-advanced-checklist-gh-v1-','crossfit-advanced-checklist-report-v1-','crossfit-checklist-backup-v1-'];
-const TOTAL_DAYS=84,TOTAL_CLASSES=84,TOTAL_WEEKLY_ITEMS=72,TOTAL_WEIGHINS=12;
-let currentWeekIndex=0;
+const APP_KEY='crossfit-toolkit-v3-state';
+const HOTEL_KEY='hotel-wod-generator-v1';
+const DEFAULT_STATE={profile:{current_streak:0,best_streak:0,lifetime_xp:0,cycles_completed:0,total_nutrition_days:0,total_class_days:0,total_weekly_goals_completed:0,weight_log:[],created_at:new Date().toISOString()},active_cycle:null,archive:[]};
+let appState=loadState(), pendingCycle=null, currentWeekIndex=0, weightGraphMode='trend';
 
-function startOfMonday(d){const c=new Date(d);c.setHours(0,0,0,0);const off=(c.getDay()+6)%7;c.setDate(c.getDate()-off);return c;}
-function formatWeekRange(s,e){const a=new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric'}),b=new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric'});return `${a.format(s)} – ${b.format(e)}`;}
-const formatDayName=d=>new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(d);
-const formatLongDate=d=>new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(d);
-function isoDateLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-function phaseDetails(i){if(i<4)return{phase:'Phase 1 · Weeks 1–4 · Base Build',zone2:'2–3 Zone 2 sessions · 30–35 min each at easy conversational pace',intervals:'1 interval session · 5 × 400 m row · 2 min rest · controlled effort',engine:'1 engine builder · 12 min steady: 10 burpees + 8 cleans + 8 thrusters',clean:'2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans'};if(i<8)return{phase:'Phase 2 · Weeks 5–8 · Capacity Build',zone2:'2–3 Zone 2 sessions · 35–45 min each at easy conversational pace',intervals:'1 interval session · 6 × 500 m row · 90 sec rest · steady splits',engine:'1 engine builder · 15 min steady: 12 burpees + 10 cleans + 10 thrusters',clean:'2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans'};return{phase:'Phase 3 · Weeks 9–12 · Endurance & Control',zone2:'2–3 Zone 2 sessions · 45–50 min each at easy conversational pace',intervals:'1 interval session · 5 × 600 m row · 90 sec rest · consistent effort',engine:'1 engine builder · 18 min steady: 12 burpees + 12 cleans + 12 thrusters',clean:'2 clean efficiency sessions · EMOM 10 min: 1–2 moderate cleans'};}
-function weeklyItems(i){const p=phaseDetails(i);return[{id:'zone2a',title:'Zone 2 session #1',sub:p.zone2},{id:'zone2b',title:'Zone 2 session #2',sub:p.zone2},{id:'intervals',title:'Interval session',sub:p.intervals},{id:'engine',title:'Engine builder workout',sub:p.engine},{id:'clean1',title:'Clean efficiency session #1',sub:p.clean},{id:'clean2',title:'Clean efficiency session #2',sub:p.clean}];}
-function dailyItemsForDate(){return[{kind:'nutrition',title:'Nutrition',sub:'Hit your daily nutrition target'},{kind:'class',title:'CrossFit class',sub:'Check this if you attended class today'}];}
+const cycleSpecTemplate={
+  spec_version:"1.0",
+  cycle:{title:"Engine Build",description:"8-week cycle focused on pacing, aerobic capacity, and repeatability under fatigue.",duration_weeks:8,tags:["engine","pacing"]},
+  tracking:{
+    daily_checks:[
+      {id:"nutrition",label:"Nutrition",type:"checkbox",default_on_home:true},
+      {id:"class",label:"CrossFit class",type:"checkbox",default_on_home:true},
+      {id:"minimum_day",label:"Minimum day",type:"checkbox",default_on_home:true}
+    ],
+    weekly_fields:[
+      {id:"weigh_in",label:"Weekly weigh-in",type:"text"},
+      {id:"weekly_notes",label:"Weekly notes",type:"textarea"}
+    ]
+  },
+  weeks:[
+    {week_number:1,title:"Base build begins",focus_note:"Start slower than you want. Build control first.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Use pacing discipline in 1 CrossFit class"]},
+    {week_number:2,title:"Base build continues",focus_note:"Repeatability first.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Complete 1 pacing-focus class"]},
+    {week_number:3,title:"Capacity build",focus_note:"Stay controlled in the opening half.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Use smart breaks in 1 hard class"]},
+    {week_number:4,title:"Capacity build",focus_note:"No early redline.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Use pacing discipline in 1 CrossFit class"]},
+    {week_number:5,title:"Capacity build",focus_note:"Consistency beats hero days.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Complete 1 pacing-focus class"]},
+    {week_number:6,title:"Control under fatigue",focus_note:"Make the second half your best half.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Use smart breaks in 1 hard class"]},
+    {week_number:7,title:"Control under fatigue",focus_note:"Calm, patient, repeatable.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Complete 1 pacing-focus class"]},
+    {week_number:8,title:"Finish strong",focus_note:"Strong close, not dramatic start.",goals:["Complete 2 Zone 2 sessions","Complete 1 interval session","Complete 1 engine builder workout","Use pacing discipline in 1 hard class"]}
+  ],
+  workout_guidance:{sections:[{title:"Overview",content:["Keep 5 CrossFit classes per week.","Add 2–3 Zone 2 sessions.","Add 1 interval session each week.","Use one class each week as a pacing practice opportunity."]}]},
+  nutrition_guidance:{sections:[{title:"Core rules",content:["Protein at every meal.","Protein + vegetables first.","Use one indulgence per meal, not all of them.","Reset at the next meal after a miss."]}]}
+};
 
-function buildWeekCard(i,weekStart){
-  const p=phaseDetails(i),weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);
-  const weeklyItemsHtml=weeklyItems(i).map(item=>`<label class="check-item"><input type="checkbox" data-type="weekly" data-key="week-${i+1}-${item.id}"><div class="check-text"><div class="check-title">${item.title}</div><div class="check-sub">${item.sub}</div></div></label>`).join('');
-  const dayCardsHtml=Array.from({length:7},(_,dayOffset)=>{const current=new Date(weekStart);current.setDate(weekStart.getDate()+dayOffset);const id=isoDateLocal(current);const items=dailyItemsForDate().map(item=>`<label class="check-item"><input type="checkbox" data-type="${item.kind}" data-key="${id}-${item.kind}"><div class="check-text"><div class="check-title">${item.title}</div><div class="check-sub">${item.sub}</div></div></label>`).join('');return `<div class="day-row"><div class="day-top"><div class="day-name">${formatDayName(current)}</div><div class="date-text">${formatLongDate(current)}</div></div><div class="day-checks">${items}</div></div>`;}).join('');
-  const section=document.createElement('section');section.className='week-card';section.id=`week-${i+1}`;
-  section.innerHTML=`<div class="week-header"><h2>Week ${i+1}</h2><div class="week-range">${formatWeekRange(weekStart,weekEnd)}</div><div class="phase-badge">${p.phase}</div><div class="weighin-row"><label for="weighin-${i+1}">Weekly weigh-in</label><input type="text" id="weighin-${i+1}" data-type="weighin" data-key="week-${i+1}-weighin" placeholder="e.g. 203.8 lb"></div><div class="notes-row"><label for="notes-${i+1}">Weekly notes</label><textarea id="notes-${i+1}" data-type="notes" data-key="week-${i+1}-notes" placeholder="Energy, sleep, pacing, soreness, wins, rough workouts, anything you want to remember..."></textarea></div><div class="note">Pacing reminder: on one class this week, deliberately keep the first half at 70–75% effort and avoid trying to bank time early.</div></div><div class="week-grid"><div class="section-card"><h3>Weekly performance work</h3><div class="check-list">${weeklyItemsHtml}</div></div><div class="section-card"><h3>Daily checklist</h3><div class="days-list">${dayCardsHtml}</div></div></div>`;
+const pullupProgramHTML='<div class="content-grid"><div class="card"><h3>Main focus</h3><ul><li>Submax volume</li><li>Strength via weighted or tempo work</li><li>Density and repeatability</li><li>Grip endurance</li></ul></div><div class="card"><h3>Main rules</h3><ul><li>Keep most sets around 60–75% of max</li><li>Do not hit failure until test day</li><li>Most sets should feel clean and repeatable</li></ul></div></div><div class="week-block"><div class="week-block-header"><strong>Week 1</strong></div><div class="week-day"><strong>Day 1:</strong> 5 rounds of 6 pull-ups, rest, 8 pull-ups</div><div class="week-day"><strong>Day 2:</strong> 5 × 5 weighted or tempo pull-ups + dead hangs</div><div class="week-day"><strong>Day 3:</strong> 12-min EMOM of 5 reps, progress to some 6s if clean</div><div class="week-day"><strong>Day 4:</strong> scap pull-ups, rows, hollow hold</div><div class="week-day"><strong>Day 5:</strong> 5 × 10 pull-ups or 4 × 12</div><div class="week-day"><strong>Day 6:</strong> dead hangs and top-position holds</div><div class="week-day"><strong>Day 7:</strong> rest</div></div><div class="week-block"><div class="week-block-header"><strong>Week 2</strong></div><div class="week-day"><strong>Day 8:</strong> 6 rounds of 8 pull-ups</div><div class="week-day"><strong>Day 9:</strong> 6 × 4 weighted or paused pull-ups</div><div class="week-day"><strong>Day 10:</strong> 14-min EMOM of 5s, then some 6s if clean</div><div class="week-day"><strong>Day 11:</strong> light structural day</div><div class="week-day"><strong>Day 12:</strong> 4 sets of 8–10 crisp reps</div><div class="week-day"><strong>Day 13:</strong> max strict set + 3 back-off sets</div><div class="week-day"><strong>Day 14:</strong> rest</div></div>';
+const duProgramHTML='<div class="content-grid"><div class="card"><h3>Main focus</h3><ul><li>Turn one good set into multiple good sets</li><li>Improve breathing and rhythm</li><li>Reduce misses after fatigue starts</li></ul></div><div class="card"><h3>Main rules</h3><ul><li>Most sets live in the 20–40 rep range</li><li>Stay relaxed in shoulders and grip</li><li>After a miss, reset calmly instead of panic-rushing</li></ul></div></div><div class="week-block"><div class="week-block-header"><strong>Week 1</strong></div><div class="week-day"><strong>Day 1:</strong> 8 rounds of 25 double unders</div><div class="week-day"><strong>Day 2:</strong> singles + doubles rhythm practice</div><div class="week-day"><strong>Day 3:</strong> 12-min EMOM alternating 20 and 25</div><div class="week-day"><strong>Day 4:</strong> rest or easy movement</div><div class="week-day"><strong>Day 5:</strong> 5 rounds of 40 reps, capped at 2 attempts each round</div><div class="week-day"><strong>Day 6:</strong> fatigue rhythm practice with simple bodyweight work</div><div class="week-day"><strong>Day 7:</strong> rest</div></div><div class="week-block"><div class="week-blockHeader"><strong>Week 2</strong></div><div class="week-day"><strong>Day 8:</strong> 6 rounds of 30–35 reps</div><div class="week-day"><strong>Day 9:</strong> singles + 25 doubles for 10 rounds</div><div class="week-day"><strong>Day 10:</strong> 14-min EMOM alternating 25 and 30</div><div class="week-day"><strong>Day 11:</strong> rest or easy movement</div><div class="week-day"><strong>Day 12:</strong> 5 sets of 25–30 clean reps</div><div class="week-day"><strong>Day 13:</strong> max test + 3 follow-up quality sets</div><div class="week-day"><strong>Day 14:</strong> rest</div></div>';
+
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function loadState(){try{const raw=localStorage.getItem(APP_KEY); if(raw) return JSON.parse(raw);}catch(e){} return clone(DEFAULT_STATE);}
+function saveState(){localStorage.setItem(APP_KEY, JSON.stringify(appState));}
+function startOfDay(d){const x=new Date(d);x.setHours(0,0,0,0);return x;}
+function startOfMonday(d){const x=startOfDay(d);const off=(x.getDay()+6)%7;x.setDate(x.getDate()-off);return x;}
+function isoDate(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function parseISO(s){const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function daysBetween(a,b){return Math.round((startOfDay(b)-startOfDay(a))/(1000*60*60*24));}
+function fmtLong(d){return new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(d);}
+function fmtShort(d){return new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric'}).format(d);}
+function activeCycle(){return appState.active_cycle;}
+function getCycleDates(cycle){const start=parseISO(cycle.start_date); const end=new Date(start); end.setDate(start.getDate() + cycle.program.cycle.duration_weeks*7 - 1); return {start,end};}
+function getCurrentCycleWeekIndex(cycle){if(!cycle) return 0; const {start}=getCycleDates(cycle); return Math.max(0, Math.min(cycle.program.cycle.duration_weeks-1, Math.floor(daysBetween(start, new Date())/7)));}
+function getWeekRange(cycle, idx){const {start}=getCycleDates(cycle); const ws=new Date(start); ws.setDate(start.getDate()+idx*7); const we=new Date(ws); we.setDate(ws.getDate()+6); return {start:ws,end:we};}
+function ensureCycleData(cycle){if(!cycle.tracker_data) cycle.tracker_data={daily:{},weekly:{}}; if(!cycle.tracker_data.daily) cycle.tracker_data.daily={}; if(!cycle.tracker_data.weekly) cycle.tracker_data.weekly={};}
+function getDayState(cycle, ds){ensureCycleData(cycle); if(!cycle.tracker_data.daily[ds]) cycle.tracker_data.daily[ds]={}; return cycle.tracker_data.daily[ds];}
+function getWeekState(cycle, num){ensureCycleData(cycle); const key=`week_${num}`; if(!cycle.tracker_data.weekly[key]) cycle.tracker_data.weekly[key]={goals:{},fields:{}}; return cycle.tracker_data.weekly[key];}
+function recalcGlobal(){
+  const cycles=[...appState.archive]; if(appState.active_cycle) cycles.push(appState.active_cycle);
+  let nutrition=0, classes=0, goals=0;
+  cycles.forEach(c=>{ensureCycleData(c); Object.values(c.tracker_data.daily).forEach(v=>{if(v.nutrition) nutrition++; if(v.class) classes++;}); Object.values(c.tracker_data.weekly).forEach(w=>{goals+=Object.values(w.goals||{}).filter(Boolean).length;});});
+  appState.profile.total_nutrition_days=nutrition; appState.profile.total_class_days=classes; appState.profile.total_weekly_goals_completed=goals; appState.profile.cycles_completed=appState.archive.length;
+  const dates=[];
+  cycles.forEach(c=>{Object.entries(c.tracker_data.daily||{}).forEach(([ds,v])=>{if(Object.values(v).some(Boolean)) dates.push(ds);});});
+  const uniq=[...new Set(dates)].sort();
+  let best=0, run=0, prev=null;
+  uniq.forEach(ds=>{const d=parseISO(ds); run=(prev&&daysBetween(prev,d)===1)?run+1:1; if(run>best) best=run; prev=d;});
+  let streak=0, expected=startOfDay(new Date());
+  for(let i=uniq.length-1;i>=0;i--){if(uniq[i]===isoDate(expected)){streak++; expected.setDate(expected.getDate()-1);} else if(uniq[i] < isoDate(expected)) break;}
+  appState.profile.current_streak=streak; appState.profile.best_streak=Math.max(appState.profile.best_streak||0,best);
+}
+function saveAndRender(fullWeek=true){recalcGlobal(); saveState(); renderHome(); if(fullWeek) renderWeekView(); renderCycleView(); renderGuides(); renderStats(); renderArchive();}
+function weeklyGoalDone(cycle, num){return Object.values(getWeekState(cycle,num).goals||{}).filter(Boolean).length;}
+function getWeightEntriesCycle(cycle){if(!cycle) return []; const {start,end}=getCycleDates(cycle); return (appState.profile.weight_log||[]).filter(w=>{const d=parseISO(w.date); return d>=start && d<=end;}).sort((a,b)=>a.date.localeCompare(b.date));}
+function rollingAverage(entries, win){const out=[]; for(let i=0;i<entries.length;i++){const slice=entries.slice(Math.max(0,i-win+1),i+1); out.push({...entries[i],avg:slice.reduce((s,x)=>s+Number(x.weight),0)/slice.length});} return out;}
+function trendLabel(entries){if(entries.length<2) return 'Add a few entries to see trends.'; const ra=rollingAverage(entries, Math.min(7, entries.length)); const diff=ra[ra.length-1].avg-ra[0].avg; if(Math.abs(diff)<0.4) return 'Trend: stable'; return diff<0 ? 'Trend: decreasing' : 'Trend: slight increase';}
+
+function renderHome(){
+  const c=activeCycle();
+  if(!c){
+    document.getElementById('homeCycleTitle').textContent='No active cycle';
+    document.getElementById('homeCycleMeta').textContent='Import a cycle to get started.';
+    document.getElementById('homeCycleFill').style.width='0%';
+    document.getElementById('homeStreak').textContent=(appState.profile.current_streak||0)+' days';
+    document.getElementById('homeBestStreak').textContent=(appState.profile.best_streak||0)+' days';
+    document.getElementById('homeWeeklyGoals').innerHTML='<div class="muted">No active cycle.</div>';
+    document.getElementById('homeWeeklyProgress').textContent='0 / 0';
+    document.getElementById('homeTodayChecks').innerHTML='<div class="muted">No active cycle.</div>';
+    document.getElementById('todayCount').textContent='TODAY (0 / 0)';
+    document.getElementById('homeWeightSummary').textContent='No entries yet';
+    return;
+  }
+  currentWeekIndex=getCurrentCycleWeekIndex(c);
+  const weekNum=currentWeekIndex+1, weekDef=c.program.weeks.find(w=>w.week_number===weekNum), weekState=getWeekState(c, weekNum), {start,end}=getCycleDates(c);
+  document.getElementById('homeCycleTitle').textContent=c.title;
+  document.getElementById('homeCycleMeta').textContent=`Week ${weekNum} of ${c.program.cycle.duration_weeks} · ${fmtShort(start)} – ${fmtShort(end)}`;
+  const pct=Math.round(((Math.min(c.program.cycle.duration_weeks*7, Math.max(0, daysBetween(start,new Date())+1)))/(c.program.cycle.duration_weeks*7))*100);
+  document.getElementById('homeCycleFill').style.width=pct+'%';
+  document.getElementById('homeStreak').textContent=(appState.profile.current_streak||0)+' days';
+  document.getElementById('homeBestStreak').textContent=(appState.profile.best_streak||0)+' days';
+
+  const goalsWrap=document.getElementById('homeWeeklyGoals'); goalsWrap.innerHTML='';
+  weekDef.goals.forEach((g,i)=>{const id='goal_'+i; const row=document.createElement('label'); row.className='check-item'; row.innerHTML=`<input type="checkbox" ${weekState.goals[id]?'checked':''}><div><div class="check-title">${g}</div></div>`; row.querySelector('input').addEventListener('change',e=>{weekState.goals[id]=e.target.checked; saveAndRender(false);}); goalsWrap.appendChild(row);});
+  if(weekDef.focus_note){const note=document.createElement('div'); note.className='muted'; note.textContent='“'+weekDef.focus_note+'”'; goalsWrap.appendChild(note);}
+  const done=weeklyGoalDone(c, weekNum); document.getElementById('homeWeeklyProgress').textContent=`${done} / ${weekDef.goals.length}`; document.getElementById('homeWeekComplete').classList.toggle('show', done===weekDef.goals.length);
+
+  const range=getWeekRange(c,currentWeekIndex); const d=new Date(); const day=(startOfDay(d)<range.start)?range.start:startOfDay(d); const ds=isoDate(day); const dayState=getDayState(c, ds);
+  const checks=(c.program.tracking.daily_checks||[]).filter(x=>x.default_on_home);
+  const todayWrap=document.getElementById('homeTodayChecks'); todayWrap.innerHTML=''; let todayDone=0;
+  checks.forEach(ch=>{const row=document.createElement('label'); row.className='check-item'+(ch.id==='minimum_day'?' minimum-lite':''); row.innerHTML=`<input type="checkbox" ${dayState[ch.id]?'checked':''}><div><div class="check-title">${ch.label}${ch.id==='minimum_day'?' (backup)':''}</div></div>`; if(dayState[ch.id]) todayDone++; row.querySelector('input').addEventListener('change',e=>{dayState[ch.id]=e.target.checked; saveAndRender(false);}); todayWrap.appendChild(row);});
+  document.getElementById('todayCount').textContent=`TODAY (${todayDone} / ${checks.length})`;
+
+  const weights=(appState.profile.weight_log||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const last=weights[weights.length-1];
+  document.getElementById('homeWeightSummary').textContent=last?`Last: ${last.weight} lb (${Math.abs(daysBetween(parseISO(last.date),new Date()))}d ago)`:'No entries yet';
+}
+function renderWeekView(){
+  const c=activeCycle(), nav=document.getElementById('calendarNav'), box=document.getElementById('weekContainer'); nav.innerHTML=''; box.innerHTML='';
+  if(!c){box.innerHTML='<div class="card"><div class="muted">No active cycle. Load a cycle file to begin.</div></div>'; return;}
+  for(let i=0;i<c.program.cycle.duration_weeks;i++){const chip=document.createElement('a'); chip.href='#'; chip.className='calendar-chip'+(i===currentWeekIndex?' active':''); chip.textContent='Week '+(i+1); chip.addEventListener('click',e=>{e.preventDefault(); jumpToWeek(i);}); nav.appendChild(chip);}
+  for(let i=0;i<c.program.cycle.duration_weeks;i++) box.appendChild(buildWeekCard(c,i));
+}
+function buildWeekCard(c, idx){
+  const weekNum=idx+1, weekDef=c.program.weeks.find(w=>w.week_number===weekNum), weekState=getWeekState(c,weekNum), range=getWeekRange(c, idx);
+  const section=document.createElement('section'); section.className='week-card'; section.id='week-'+weekNum;
+  const goalsHTML=weekDef.goals.map((g,i)=>`<label class="check-item"><input type="checkbox" data-goal="${i}" ${weekState.goals['goal_'+i]?'checked':''}><div><div class="check-title">${g}</div></div></label>`).join('');
+  const daysHTML=Array.from({length:7},(_,off)=>{const d=new Date(range.start); d.setDate(range.start.getDate()+off); const ds=isoDate(d); const st=getDayState(c, ds); const checks=(c.program.tracking.daily_checks||[]).map(ch=>`<label class="check-item ${ch.id==='minimum_day'?'minimum-lite':''}"><input type="checkbox" data-day-check="${ch.id}" data-day-date="${ds}" ${st[ch.id]?'checked':''}><div><div class="check-title">${ch.label}${ch.id==='minimum_day'?' (backup)':''}</div></div></label>`).join(''); return `<div class="day-row"><div class="day-name">${new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(d)}</div><div class="date-text">${fmtLong(d)}</div>${checks}</div>`;}).join('');
+  const fieldsHTML=(c.program.tracking.weekly_fields||[]).map(f=>{const val=(weekState.fields||{})[f.id]||''; return f.type==='textarea'?`<div class="card" style="padding:12px;margin-top:10px"><div class="label">${f.label}</div><textarea data-week-field="${f.id}">${val}</textarea></div>`:`<div class="card" style="padding:12px;margin-top:10px"><div class="label">${f.label}</div><input type="text" value="${val}" data-week-field="${f.id}"></div>`;}).join('');
+  section.innerHTML=`<div class="week-header"><h2>Week ${weekNum}</h2><div class="muted">${fmtShort(range.start)} – ${fmtLong(range.end)}</div><div class="phase-badge">${weekDef.title}</div>${weekDef.focus_note?`<div class="note">${weekDef.focus_note}</div>`:''}</div><div class="week-grid"><div class="section-card"><h3>Weekly Goals</h3>${goalsHTML}${fieldsHTML}</div><div class="section-card"><h3>Days</h3>${daysHTML}</div></div>`;
+  section.querySelectorAll('[data-goal]').forEach(cb=>cb.addEventListener('change',e=>{weekState.goals['goal_'+e.target.dataset.goal]=e.target.checked; saveAndRender(false);}));
+  section.querySelectorAll('[data-day-check]').forEach(cb=>cb.addEventListener('change',e=>{const st=getDayState(c, e.target.dataset.dayDate); st[e.target.dataset.dayCheck]=e.target.checked; saveAndRender(false);}));
+  section.querySelectorAll('[data-week-field]').forEach(el=>['input','change'].forEach(ev=>el.addEventListener(ev,()=>{weekState.fields[el.dataset.weekField]=el.value.trim(); saveAndRender(false);})));
   return section;
 }
-function buildCalendar(){const monday=startOfMonday(new Date()),container=document.getElementById('weeksContainer'),nav=document.getElementById('calendarNav');container.innerHTML='';nav.innerHTML='';for(let i=0;i<12;i++){const weekStart=new Date(monday);weekStart.setDate(monday.getDate()+i*7);container.appendChild(buildWeekCard(i,weekStart));const a=document.createElement('a');a.className='calendar-chip';a.href=`#week-${i+1}`;a.textContent=`Week ${i+1}`;a.dataset.week=i;nav.appendChild(a);}}
-const getCheckboxes=()=>Array.from(document.querySelectorAll('#trackerView input[type="checkbox"]'));
-const getWeighinInputs=()=>Array.from(document.querySelectorAll('#trackerView input[type="text"][data-type="weighin"]'));
-const getNoteInputs=()=>Array.from(document.querySelectorAll('#trackerView textarea[data-type="notes"]'));
-function loadState(){getCheckboxes().forEach(el=>el.checked=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)==='true');getWeighinInputs().forEach(el=>el.value=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)||'');getNoteInputs().forEach(el=>el.value=localStorage.getItem(STORAGE_PREFIX+el.dataset.key)||'');updateCounts();updateFun();}
-function saveCheckbox(el){localStorage.setItem(STORAGE_PREFIX+el.dataset.key,el.checked?'true':'false');updateCounts();updateFun();}
-function saveText(el){localStorage.setItem(STORAGE_PREFIX+el.dataset.key,el.value.trim());updateCounts();updateFun();}
-function updateCounts(){const checkboxes=getCheckboxes(),weighins=getWeighinInputs();document.getElementById('nutritionCount').textContent=`${checkboxes.filter(el=>el.dataset.type==='nutrition'&&el.checked).length} / ${TOTAL_DAYS}`;document.getElementById('classCount').textContent=`${checkboxes.filter(el=>el.dataset.type==='class'&&el.checked).length} / ${TOTAL_CLASSES}`;document.getElementById('weeklyCount').textContent=`${checkboxes.filter(el=>el.dataset.type==='weekly'&&el.checked).length} / ${TOTAL_WEEKLY_ITEMS}`;document.getElementById('weighinCount').textContent=`${weighins.filter(el=>el.value.trim().length>0).length} / ${TOTAL_WEIGHINS}`;}
-function weekStats(weekNum){let n=0,c=0,w=0;const monday=startOfMonday(new Date());for(let dayOffset=0;dayOffset<7;dayOffset++){const date=new Date(monday);date.setDate(monday.getDate()+(weekNum-1)*7+dayOffset);const id=isoDateLocal(date);if(localStorage.getItem(STORAGE_PREFIX+`${id}-nutrition`)==='true')n++;if(localStorage.getItem(STORAGE_PREFIX+`${id}-class`)==='true')c++;}weeklyItems(weekNum-1).forEach(item=>{if(localStorage.getItem(STORAGE_PREFIX+`week-${weekNum}-${item.id}`)==='true')w++;});return{nutrition:n,classes:c,weekly:w};}
-function updateFun(){const checkboxes=getCheckboxes(),weights=getWeighinInputs(),notes=getNoteInputs();const totalChecked=checkboxes.filter(el=>el.checked).length+weights.filter(el=>el.value.trim()).length+notes.filter(el=>el.value.trim()).length;const maxPossible=TOTAL_DAYS+TOTAL_CLASSES+TOTAL_WEEKLY_ITEMS+TOTAL_WEIGHINS+12;const pct=Math.round(totalChecked/maxPossible*100);document.getElementById('overallFill').style.width=`${pct}%`;document.getElementById('overallText').textContent=`${pct}% of all tracker items filled`;
-  const monday=startOfMonday(new Date());let streak=0;for(let back=0;back<84;back++){const d=new Date(monday);d.setDate(monday.getDate()+(84-1-back));const id=isoDateLocal(d);const active=(localStorage.getItem(STORAGE_PREFIX+`${id}-nutrition`)==='true'||localStorage.getItem(STORAGE_PREFIX+`${id}-class`)==='true');if(active)streak++;else if(streak>0)break;}document.getElementById('streakText').textContent=`${streak} day${streak===1?'':'s'}`;
-  const cw=getCurrentWeekIndex()+1,stats=weekStats(cw);document.getElementById('thisWeekText').textContent=`Week ${cw}: ${stats.nutrition}/7 nutrition · ${stats.classes}/7 classes · ${stats.weekly}/6 weekly items`;}
-function attachEvents(){
-  getCheckboxes().forEach(el=>el.addEventListener('change',()=>saveCheckbox(el)));
-  getWeighinInputs().forEach(el=>['input','change'].forEach(ev=>el.addEventListener(ev,()=>saveText(el))));
-  getNoteInputs().forEach(el=>['input','change'].forEach(ev=>el.addEventListener(ev,()=>saveText(el))));
-  document.getElementById('importFile').addEventListener('change',handleImportFile);
-  document.getElementById('toolbarToggle').addEventListener('click',()=>document.getElementById('toolbarPanel').classList.toggle('hidden'));
-  document.querySelectorAll('.tool-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(btn.dataset.view).classList.add('active');document.getElementById('toolbarPanel').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});}));
-  document.getElementById('prevWeekBtn').addEventListener('click',()=>jumpToWeek(Math.max(0,currentWeekIndex-1)));
-  document.getElementById('nextWeekBtn').addEventListener('click',()=>jumpToWeek(Math.min(11,currentWeekIndex+1)));
-  document.getElementById('currentWeekBtn').addEventListener('click',()=>jumpToWeek(getCurrentWeekIndex()));
-  document.querySelectorAll('.calendar-chip').forEach(chip=>chip.addEventListener('click',e=>{e.preventDefault();jumpToWeek(Number(chip.dataset.week));}));
-  document.getElementById('generateBtn').addEventListener('click',generateWorkout);
-  document.getElementById('rerollBtn').addEventListener('click',generateWorkout);
+function renderCycleView(){
+  const c=activeCycle(), meta=document.getElementById('cycleOverviewMeta'), body=document.getElementById('cycleOverviewBody');
+  if(!c){meta.textContent='No active cycle'; body.innerHTML='<div class="muted">Import a cycle to get started.</div>'; return;}
+  const {start,end}=getCycleDates(c); meta.textContent=`${fmtShort(start)} – ${fmtLong(end)}`; body.innerHTML='';
+  c.program.weeks.forEach(w=>{const done=weeklyGoalDone(c,w.week_number), total=w.goals.length; const div=document.createElement('div'); div.className='week-block'; div.innerHTML=`<div class="week-block-header"><strong>Week ${w.week_number} — ${w.title}</strong><br><span class="muted">${done} / ${total} goals complete</span></div>${w.goals.map(g=>`<div class="week-day">${g}</div>`).join('')}${w.focus_note?`<div class="week-day"><em>${w.focus_note}</em></div>`:''}`; body.appendChild(div);});
 }
-function getCurrentWeekIndex(){const monday=startOfMonday(new Date()),today=new Date();today.setHours(0,0,0,0);return Math.max(0,Math.min(11,Math.floor((today-monday)/(1000*60*60*24*7))));}
-function jumpToWeek(i){currentWeekIndex=i;document.getElementById(`week-${i+1}`).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.calendar-chip').forEach(c=>c.classList.toggle('active',Number(c.dataset.week)===i));}
-function clearStoredData(){const keys=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&(k.startsWith(STORAGE_PREFIX)||LEGACY_PREFIXES.some(p=>k.startsWith(p))))keys.push(k);}keys.forEach(k=>localStorage.removeItem(k));}
-function resetAll(){if(!confirm('Reset all tracker checkboxes, weigh-ins, and weekly notes?'))return;clearStoredData();loadState();}
-function gatherBackup(){const data={version:2,prefix:STORAGE_PREFIX,exportedAt:new Date().toISOString(),items:{}};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&(k.startsWith(STORAGE_PREFIX)||LEGACY_PREFIXES.some(p=>k.startsWith(p))||k==='hotel-wod-generator-v1'))data.items[k]=localStorage.getItem(k);}return data;}
-function exportBackup(){const data=gatherBackup();const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`crossfit-toolkit-v2-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);}
-function handleImportFile(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(!parsed||typeof parsed!=='object'||!parsed.items||typeof parsed.items!=='object')throw new Error('bad file');const itemKeys=Object.keys(parsed.items);if(!confirm(`Import backup with ${itemKeys.length} saved items? This will overwrite current tracker data.`)){event.target.value='';return;}clearStoredData();itemKeys.forEach(k=>{if(k==='hotel-wod-generator-v1'){localStorage.setItem(k,parsed.items[k]);return;}let suffix=k;[STORAGE_PREFIX,...LEGACY_PREFIXES].forEach(prefix=>{if(k.startsWith(prefix))suffix=k.slice(prefix.length);});localStorage.setItem(STORAGE_PREFIX+suffix,parsed.items[k]);});loadState();hydrateHotelFromSaved();alert('Import complete.');}catch(e){alert('That file could not be imported.');}finally{event.target.value='';}};reader.readAsText(file);}
+function renderGuides(){
+  const c=activeCycle(), wg=document.getElementById('workoutGuide'), ng=document.getElementById('nutritionGuide');
+  if(!c){wg.innerHTML='<div class="card"><div class="muted">No active cycle.</div></div>'; ng.innerHTML=wg.innerHTML; return;}
+  const render=(sections)=>`<div class="program-card"><div class="program-body">${sections.map(sec=>`<div class="card"><h3>${sec.title}</h3>${sec.content.map(p=>`<div style="margin:8px 0">${p}</div>`).join('')}</div>`).join('')}</div></div>`;
+  wg.innerHTML=render(c.program.workout_guidance.sections||[]); ng.innerHTML=render(c.program.nutrition_guidance.sections||[]);
+}
+function renderToolsStatic(){document.getElementById('pullupTool').innerHTML=pullupProgramHTML; document.getElementById('duTool').innerHTML=duProgramHTML;}
+function renderStats(){
+  const c=activeCycle(), cycleStats=document.getElementById('cycleStatsList'), globalStats=document.getElementById('globalStatsList');
+  cycleStats.innerHTML=''; globalStats.innerHTML='';
+  if(c){const nutrition=Object.values(c.tracker_data.daily||{}).filter(v=>v.nutrition).length, classes=Object.values(c.tracker_data.daily||{}).filter(v=>v.class).length; let goals=0; Object.values(c.tracker_data.weekly||{}).forEach(w=>goals+=Object.values(w.goals||{}).filter(Boolean).length); const weights=getWeightEntriesCycle(c), first=weights[0], last=weights[weights.length-1];
+    [`Nutrition days: ${nutrition}`,`Class days: ${classes}`,`Weekly goals completed: ${goals}`,`Start weight: ${first?first.weight+' lb':'—'}`,`Current weight: ${last?last.weight+' lb':'—'}`,`Cycle change: ${first&&last?(Number(last.weight)-Number(first.weight)).toFixed(1)+' lb':'—'}`].forEach(t=>{const d=document.createElement('div'); d.className='check-item'; d.innerHTML='<div class="check-title">'+t+'</div>'; cycleStats.appendChild(d);});}
+  else cycleStats.innerHTML='<div class="muted">No active cycle.</div>';
+  [`Cycles completed: ${appState.profile.cycles_completed||0}`,`Total class days: ${appState.profile.total_class_days||0}`,`Total nutrition days: ${appState.profile.total_nutrition_days||0}`,`Total weekly goals completed: ${appState.profile.total_weekly_goals_completed||0}`,`Current streak: ${appState.profile.current_streak||0}`,`Best streak: ${appState.profile.best_streak||0}`].forEach(t=>{const d=document.createElement('div'); d.className='check-item'; d.innerHTML='<div class="check-title">'+t+'</div>'; globalStats.appendChild(d);});
+  renderWeightStats();
+}
+function renderWeightStats(){
+  const c=activeCycle(), all=(appState.profile.weight_log||[]).slice().sort((a,b)=>a.date.localeCompare(b.date)), cycleEntries=c?getWeightEntriesCycle(c):all, curr=all[all.length-1], avgs=all.length?rollingAverage(all, Math.min(7,all.length)):[], avg=avgs.length?avgs[avgs.length-1].avg:null, first=cycleEntries[0], last=cycleEntries[cycleEntries.length-1];
+  document.getElementById('weightCurrent').textContent=curr?curr.weight+' lb':'—';
+  document.getElementById('weightAvg').textContent=avg!=null?avg.toFixed(1)+' lb':'—';
+  document.getElementById('weightChange').textContent=(first&&last)?(Number(last.weight)-Number(first.weight)).toFixed(1)+' lb':'—';
+  document.getElementById('weightEntriesCycle').textContent=String(cycleEntries.length);
+  document.getElementById('weightInterpretation').textContent=trendLabel(all);
+  renderWeightTable(all); drawWeightGraph(all);
+}
+function renderWeightTable(entries){
+  const body=document.getElementById('weightTableBody'); body.innerHTML='';
+  if(!entries.length){body.innerHTML='<tr><td colspan="3">No weight entries yet.</td></tr>'; return;}
+  entries.slice().reverse().forEach(e=>{const tr=document.createElement('tr'); tr.innerHTML=`<td>${e.date}</td><td>${e.weight}</td><td>${e.note||''}</td>`; body.appendChild(tr);});
+}
+function drawWeightGraph(entries){
+  const canvas=document.getElementById('weightCanvas'), ctx=canvas.getContext('2d'), W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H); ctx.strokeStyle='#e5e7eb'; ctx.strokeRect(0,0,W,H);
+  if(entries.length<2){ctx.fillStyle='#6b7280'; ctx.font='16px sans-serif'; ctx.fillText('Add a few entries to see trends.', 24, 40); return;}
+  const series = weightGraphMode==='trend' ? rollingAverage(entries, Math.min(7, entries.length)).map(x=>x.avg) : entries.map(x=>Number(x.weight));
+  const min=Math.min(...series), max=Math.max(...series), padX=40, padY=24, usableW=W-padX*2, usableH=H-padY*2;
+  const xPos=i=>padX + usableW*(i/(series.length-1||1)); const yPos=v=>H-padY-(((v-min)/((max-min)||1))*usableH);
+  ctx.strokeStyle='#cbd5e1'; for(let i=0;i<4;i++){const y=padY+i*(usableH/3); ctx.beginPath(); ctx.moveTo(padX,y); ctx.lineTo(W-padX,y); ctx.stroke();}
+  ctx.strokeStyle='#0f766e'; ctx.lineWidth=3; ctx.beginPath(); series.forEach((v,i)=>{const x=xPos(i), y=yPos(v); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.stroke();
+  if(weightGraphMode==='all'){ctx.fillStyle='#0f766e'; series.forEach((v,i)=>{ctx.beginPath(); ctx.arc(xPos(i),yPos(v),4,0,Math.PI*2); ctx.fill();});}
+  else {ctx.fillStyle='rgba(15,118,110,0.25)'; entries.forEach((e,i)=>{ctx.beginPath(); ctx.arc(xPos(i),yPos(Number(e.weight)),3,0,Math.PI*2); ctx.fill();});}
+}
+function renderArchive(){
+  const list=document.getElementById('archiveList'); list.innerHTML='';
+  if(!appState.archive.length){list.innerHTML='<div class="muted">No archived cycles yet.</div>'; return;}
+  appState.archive.slice().reverse().forEach(c=>{const div=document.createElement('div'); div.className='archive-item'; const s=c.stats||{}; div.innerHTML=`<div class="check-title">${c.title}</div><div class="muted">${c.start_date} to ${c.end_date}</div><div style="margin-top:8px;font-size:.9rem">Nutrition: ${s.nutrition_days||0} · Classes: ${s.class_days||0} · Goals: ${s.weekly_goals_completed||0} · Weight: ${s.start_weight!=null?s.start_weight+' lb':'—'} → ${s.end_weight!=null?s.end_weight+' lb':'—'}</div>`; list.appendChild(div);});
+}
+function renderManage(){document.getElementById('specBox').textContent=JSON.stringify(cycleSpecTemplate,null,2); document.getElementById('cycleStartDate').value=isoDate(startOfMonday(new Date())); updateCyclePreview();}
+function updateCyclePreview(){document.getElementById('cyclePreview').innerHTML=pendingCycle?`<div class="check-title">${pendingCycle.cycle.title}</div><div class="muted">${pendingCycle.cycle.duration_weeks} weeks</div><div style="margin-top:8px">${pendingCycle.weeks.length} week definitions · ${pendingCycle.tracking.daily_checks.length} daily checks · ${pendingCycle.tracking.weekly_fields.length} weekly fields</div>`:'No cycle file loaded yet.';}
+function validateCycleProgram(p){if(!p||p.spec_version!=='1.0') throw new Error('Unsupported spec version.'); if(!p.cycle||!p.tracking||!p.weeks||!p.workout_guidance||!p.nutrition_guidance) throw new Error('Missing required top-level fields.'); if(p.cycle.duration_weeks!==8) throw new Error('This app expects 8-week cycles.'); if(!Array.isArray(p.weeks)||p.weeks.length!==8) throw new Error('Cycle must contain exactly 8 weeks.'); p.weeks.forEach((w,i)=>{if(w.week_number!==i+1) throw new Error('Weeks must be numbered 1 through 8 in order.'); if(!Array.isArray(w.goals)||w.goals.length!==4) throw new Error('Each week must contain exactly 4 goals.');});}
+function archiveCurrentCycle(){const c=activeCycle(); if(!c) return; const copy=clone(c), weights=getWeightEntriesCycle(c), first=weights[0], last=weights[weights.length-1]; copy.archived_at=new Date().toISOString(); copy.stats={nutrition_days:Object.values(c.tracker_data.daily||{}).filter(v=>v.nutrition).length,class_days:Object.values(c.tracker_data.daily||{}).filter(v=>v.class).length,weekly_goals_completed:Object.values(c.tracker_data.weekly||{}).reduce((s,w)=>s+Object.values(w.goals||{}).filter(Boolean).length,0),start_weight:first?Number(first.weight):null,end_weight:last?Number(last.weight):null,weight_entry_count:weights.length}; appState.archive.push(copy);}
+function startNewCycle(program,startDate){validateCycleProgram(program); if(appState.active_cycle) archiveCurrentCycle(); const start=startOfMonday(parseISO(startDate)); const end=new Date(start); end.setDate(start.getDate()+55); appState.active_cycle={cycle_id:'cycle_'+Date.now(),title:program.cycle.title,start_date:isoDate(start),end_date:isoDate(end),spec_version:program.spec_version,program:clone(program),tracker_data:{daily:{},weekly:{}}}; saveAndRender();}
+function exportBackup(){const blob=new Blob([JSON.stringify(appState,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob), a=document.createElement('a'); a.href=url; a.download=`crossfit-toolkit-v3-backup-${new Date().toISOString().slice(0,10)}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);}
+function importBackup(file){const reader=new FileReader(); reader.onload=()=>{try{const parsed=JSON.parse(reader.result); if(!parsed.profile) throw new Error('Invalid backup.'); if(!confirm('Import backup and replace current app data?')) return; appState=parsed; saveAndRender(); hydrateHotelFromSaved(); alert('Import complete.');}catch(e){alert('That file could not be imported.');}}; reader.readAsText(file);}
+function resetActiveCycle(){if(!appState.active_cycle){alert('No active cycle to reset.'); return;} if(!confirm('Reset only the active cycle tracker data? Global streaks, weight log, and archive will stay.')) return; appState.active_cycle.tracker_data={daily:{},weekly:{}}; saveAndRender();}
+function addWeightEntry(weight,note){if(!weight) return; appState.profile.weight_log.push({date:isoDate(new Date()),weight:Number(weight),note:note||''}); appState.profile.weight_log.sort((a,b)=>a.date.localeCompare(b.date)); saveAndRender(false); document.getElementById('weightInput').value=''; document.getElementById('weightNoteInput').value='';}
+function copySpec(){navigator.clipboard.writeText(JSON.stringify(cycleSpecTemplate,null,2)).then(()=>alert('Cycle file spec copied to clipboard.'));}
+function downloadSample(){const blob=new Blob([JSON.stringify(cycleSpecTemplate,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob), a=document.createElement('a'); a.href=url; a.download='sample_cycle_file.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);}
+function jumpToWeek(i){currentWeekIndex=i; document.querySelectorAll('.calendar-chip').forEach((c,idx)=>c.classList.toggle('active',idx===i)); const el=document.getElementById('week-'+(i+1)); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});}
 
 // Hotel generator
 const bodyweightMoves={push:['push-ups','hand-release push-ups','pike push-ups','burpees','burpee broad jumps'],legs:['air squats','jump squats','reverse lunges','alternating jumping lunges','walking lunges','split squats'],core:['sit-ups','hollow rocks','V-ups','plank shoulder taps','mountain climbers','tuck-ups'],combo:['burpees','squat thrusts','down-ups']};
@@ -243,63 +430,40 @@ const hotelMoves={cardio:['250 m row','12/10 cal bike','200 m treadmill run','90
 const coachNotes=['Settle in during the first 2 minutes. Do not sprint the opening round.','This should feel like something you can race with a friend without ruining the rest of your day.','Stay smooth on transitions. Hotel workouts get silly when you overcomplicate them.','If one movement feels awkward in the space, swap it for a similar pattern and keep the format.'];
 function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
 function sampleDistinct(arr,count){const copy=[...arr],out=[];while(out.length<count&&copy.length){const i=Math.floor(Math.random()*copy.length);out.push(copy.splice(i,1)[0]);}return out;}
-function saveHotelState(state){localStorage.setItem('hotel-wod-generator-v1',JSON.stringify(state))}
-function loadHotelState(){try{return JSON.parse(localStorage.getItem('hotel-wod-generator-v1')||'{}')}catch{return {}}}
-function makeAMRAP(duration,equipment,partner,intensity){if(equipment==='none'){const a=rand(bodyweightMoves.legs),b=rand(bodyweightMoves.push),c=rand(bodyweightMoves.core),reps=intensity==='spicy'?[16,12,16]:[12,10,12];return{format:`AMRAP ${duration}`,text:`${duration}-minute AMRAP
+function saveHotelState(state){localStorage.setItem(HOTEL_KEY,JSON.stringify(state))}
+function loadHotelState(){try{return JSON.parse(localStorage.getItem(HOTEL_KEY)||'{}')}catch{return {}}}
+function makeAMRAP(duration,equipment,partner,intensity){if(equipment==='none'){const a=rand(bodyweightMoves.legs),b=rand(bodyweightMoves.push),c=rand(bodyweightMoves.core),reps=intensity==='spicy'?[16,12,16]:[12,10,12];return{format:`AMRAP ${duration}`,text:`${duration}-minute AMRAP\n\n${reps[0]} ${a}\n${reps[1]} ${b}\n${reps[2]} ${c}`,tags:['bodyweight',partner?'friend-friendly':'solo-ready','engine']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor),reps=intensity==='spicy'?[14,12]:[10,10];return{format:`AMRAP ${duration}`,text:`${duration}-minute AMRAP\n\n${cardio}\n${reps[0]} ${db}\n${reps[1]} ${floor}`,tags:['hotel gym',partner?'friend-friendly':'solo-ready','mixed modal']};}
+function makeEMOM(duration,equipment,partner,intensity){if(equipment==='none'){const moves=sampleDistinct([...bodyweightMoves.push,...bodyweightMoves.legs,...bodyweightMoves.core,...bodyweightMoves.combo],3),r1=intensity==='spicy'?'12':'10',r2=intensity==='spicy'?'16':'12',r3=intensity==='spicy'?'18':'14';return{format:`EMOM ${duration}`,text:`${duration}-minute EMOM\n\nMinute 1: ${r1} ${moves[0]}\nMinute 2: ${r2} ${moves[1]}\nMinute 3: ${r3} ${moves[2]}\n\nRepeat until time is up.`,tags:['bodyweight','paced',partner?'friend-friendly':'solo-ready']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor);return{format:`EMOM ${duration}`,text:`${duration}-minute EMOM\n\nMinute 1: ${cardio}\nMinute 2: ${intensity==='spicy'?'12':'10'} ${db}\nMinute 3: ${intensity==='spicy'?'12':'10'} ${floor}\n\nRepeat until time is up.`,tags:['hotel gym','paced',partner?'friend-friendly':'solo-ready']};}
+function makeForTime(duration,equipment,partner,intensity){const rounds=duration>=18?5:duration>=15?4:3;if(equipment==='none'){const a=rand(bodyweightMoves.legs),b=rand(bodyweightMoves.push),c=rand(bodyweightMoves.core),reps=intensity==='spicy'?[18,14,18]:[15,12,15];return{format:`For time · target ${duration} min`,text:`${rounds} rounds for time\n\n${reps[0]} ${a}\n${reps[1]} ${b}\n${reps[2]} ${c}`,tags:['bodyweight','for time',partner?'race a friend':'solo-ready']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor);return{format:`For time · target ${duration} min`,text:`${rounds} rounds for time\n\n${cardio}\n${intensity==='spicy'?'12':'10'} ${db}\n${intensity==='spicy'?'14':'12'} ${floor}`,tags:['hotel gym','for time',partner?'race a friend':'solo-ready']};}
+function makeIntervals(duration,equipment,partner,intensity){const blocks=duration>=18?6:duration>=15?5:4;if(equipment==='none'){const a=rand(bodyweightMoves.combo),b=rand(bodyweightMoves.legs);return{format:`${blocks} work blocks`,text:`${blocks} rounds:\n\n60 sec ${a}\n60 sec ${b}\n30 sec rest`,tags:['bodyweight','intervals',partner?'friend-friendly':'solo-ready']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db);return{format:`${blocks} work blocks`,text:`${blocks} rounds:\n\n${cardio}\n${intensity==='spicy'?'12':'10'} ${db}\n45 sec rest`,tags:['hotel gym','intervals',partner?'friend-friendly':'solo-ready']};}
+function makePartnerWorkout(duration,equipment,intensity){if(equipment==='none'){const a=rand(bodyweightMoves.legs),b=rand(bodyweightMoves.push),c=rand(bodyweightMoves.core);return{format:`Partner AMRAP ${duration}`,text:`${duration}-minute partner AMRAP\n\nPartner A works while Partner B rests, then switch:\n${intensity==='spicy'?'14':'12'} ${a}\n${intensity==='spicy'?'10':'8'} ${b}\n${intensity==='spicy'?'16':'12'} ${c}`,tags:['bodyweight','partner','alternating']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor);return{format:`Partner AMRAP ${duration}`,text:`${duration}-minute partner AMRAP\n\nPartner A works while Partner B rests, then switch:\n${cardio}\n${intensity==='spicy'?'12':'10'} ${db}\n${intensity==='spicy'?'12':'10'} ${floor}`,tags:['hotel gym','partner','alternating']};}
+function generateWorkout(){const equipment=document.getElementById('equipmentMode').value,duration=document.getElementById('durationMode').value,style=document.getElementById('styleMode').value,intensity=document.getElementById('intensityMode').value; let workout=style==='partner'?makePartnerWorkout(duration,equipment,intensity):rand([makeAMRAP,makeEMOM,makeForTime,makeIntervals])(duration,equipment,false,intensity); document.getElementById('formatBadge').textContent=workout.format; document.getElementById('workoutText').textContent=workout.text; document.getElementById('coachNote').textContent=rand(coachNotes); const chips=document.getElementById('tagChips'); chips.innerHTML=''; workout.tags.forEach(tag=>{const el=document.createElement('div'); el.className='chip'; el.textContent=tag; chips.appendChild(el);}); saveHotelState({equipment,duration,style,intensity,workout});}
+function hydrateHotelFromSaved(){const state=loadHotelState(); if(state.equipment) document.getElementById('equipmentMode').value=state.equipment; if(state.duration) document.getElementById('durationMode').value=state.duration; if(state.style) document.getElementById('styleMode').value=state.style; if(state.intensity) document.getElementById('intensityMode').value=state.intensity; if(state.workout){document.getElementById('formatBadge').textContent=state.workout.format||'Ready'; document.getElementById('workoutText').textContent=state.workout.text||'Tap generate.'; const chips=document.getElementById('tagChips'); chips.innerHTML=''; (state.workout.tags||[]).forEach(tag=>{const el=document.createElement('div'); el.className='chip'; el.textContent=tag; chips.appendChild(el);});}}
 
-${reps[0]} ${a}
-${reps[1]} ${b}
-${reps[2]} ${c}`,tags:['bodyweight',partner?'friend-friendly':'solo-ready','engine']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor),reps=intensity==='spicy'?[14,12]:[10,10];return{format:`AMRAP ${duration}`,text:`${duration}-minute AMRAP
+function attach(){
+  document.getElementById('toolbarToggle').addEventListener('click',()=>document.getElementById('toolbarPanel').classList.toggle('hidden'));
+  document.querySelectorAll('.tool-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById(btn.dataset.view).classList.add('active'); document.getElementById('toolbarPanel').classList.add('hidden'); window.scrollTo({top:0,behavior:'smooth'});}));
+  document.querySelectorAll('[data-nav-view]').forEach(btn=>btn.addEventListener('click',()=>document.querySelector(`.tool-btn[data-view="${btn.dataset.navView}"]`)?.click()));
+  document.getElementById('goWorkoutGuideBtn').addEventListener('click',()=>{document.querySelector('.tool-btn[data-view="guidesView"]').click(); document.querySelector('.guide-tab[data-guide="workoutGuide"]').click();});
+  document.getElementById('goNutritionGuideBtn').addEventListener('click',()=>{document.querySelector('.tool-btn[data-view="guidesView"]').click(); document.querySelector('.guide-tab[data-guide="nutritionGuide"]').click();});
+  document.querySelectorAll('.guide-tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.guide-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.guide-panel').forEach(p=>p.classList.add('hidden')); document.getElementById(btn.dataset.guide).classList.remove('hidden');}));
+  document.querySelectorAll('.tool-tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tool-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.tool-panel').forEach(p=>p.classList.add('hidden')); document.getElementById(btn.dataset.tool).classList.remove('hidden');}));
+  document.getElementById('prevWeekBtn').addEventListener('click',()=>jumpToWeek(Math.max(0,currentWeekIndex-1)));
+  document.getElementById('nextWeekBtn').addEventListener('click',()=>jumpToWeek(Math.min(((activeCycle()?.program.cycle.duration_weeks)||1)-1,currentWeekIndex+1)));
+  document.getElementById('currentWeekBtn').addEventListener('click',()=>jumpToWeek(getCurrentCycleWeekIndex(activeCycle())));
+  document.getElementById('weightToggle').addEventListener('click',()=>{document.getElementById('weightBody').classList.toggle('hidden'); document.getElementById('weightChevron').textContent=document.getElementById('weightBody').classList.contains('hidden')?'▾':'▴';});
+  document.getElementById('saveWeightBtn').addEventListener('click',()=>addWeightEntry(document.getElementById('weightInput').value, document.getElementById('weightNoteInput').value));
+  document.querySelectorAll('.weight-mode').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.weight-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); weightGraphMode=btn.dataset.mode; drawWeightGraph((appState.profile.weight_log||[]).slice().sort((a,b)=>a.date.localeCompare(b.date)));}));
+  document.getElementById('importFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(f) importBackup(f); e.target.value='';});
+  document.getElementById('cycleFileInput').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=()=>{try{const parsed=JSON.parse(reader.result); validateCycleProgram(parsed); pendingCycle=parsed; updateCyclePreview(); alert('Cycle file loaded.');}catch(err){alert(err.message||'Could not load cycle file.');}}; reader.readAsText(f); e.target.value='';});
+  document.getElementById('startCycleBtn').addEventListener('click',()=>{if(!pendingCycle){alert('Load a cycle file first.'); return;} startNewCycle(pendingCycle, document.getElementById('cycleStartDate').value); alert('New cycle started.');});
+  document.getElementById('copySpecBtn').addEventListener('click',copySpec);
+  document.getElementById('downloadSampleBtn').addEventListener('click',downloadSample);
+  document.getElementById('generateBtn').addEventListener('click',generateWorkout);
+  document.getElementById('rerollBtn').addEventListener('click',generateWorkout);
+}
 
-${cardio}
-${reps[0]} ${db}
-${reps[1]} ${floor}`,tags:['hotel gym',partner?'friend-friendly':'solo-ready','mixed modal']};}
-function makeEMOM(duration,equipment,partner,intensity){if(equipment==='none'){const moves=sampleDistinct([...bodyweightMoves.push,...bodyweightMoves.legs,...bodyweightMoves.core,...bodyweightMoves.combo],3),r1=intensity==='spicy'?'12':'10',r2=intensity==='spicy'?'16':'12',r3=intensity==='spicy'?'18':'14';return{format:`EMOM ${duration}`,text:`${duration}-minute EMOM
-
-Minute 1: ${r1} ${moves[0]}
-Minute 2: ${r2} ${moves[1]}
-Minute 3: ${r3} ${moves[2]}
-
-Repeat until time is up.`,tags:['bodyweight','paced',partner?'friend-friendly':'solo-ready']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor);return{format:`EMOM ${duration}`,text:`${duration}-minute EMOM
-
-Minute 1: ${cardio}
-Minute 2: ${intensity==='spicy'?'12':'10'} ${db}
-Minute 3: ${intensity==='spicy'?'12':'10'} ${floor}
-
-Repeat until time is up.`,tags:['hotel gym','paced',partner?'friend-friendly':'solo-ready']};}
-function makeForTime(duration,equipment,partner,intensity){const rounds=duration>=18?5:duration>=15?4:3;if(equipment==='none'){const a=rand(bodyweightMoves.legs),b=rand(bodyweightMoves.push),c=rand(bodyweightMoves.core),reps=intensity==='spicy'?[18,14,18]:[15,12,15];return{format:`For time · target ${duration} min`,text:`${rounds} rounds for time
-
-${reps[0]} ${a}
-${reps[1]} ${b}
-${reps[2]} ${c}`,tags:['bodyweight','for time',partner?'race a friend':'solo-ready']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor);return{format:`For time · target ${duration} min`,text:`${rounds} rounds for time
-
-${cardio}
-${intensity==='spicy'?'12':'10'} ${db}
-${intensity==='spicy'?'14':'12'} ${floor}`,tags:['hotel gym','for time',partner?'race a friend':'solo-ready']};}
-function makeIntervals(duration,equipment,partner,intensity){const blocks=duration>=18?6:duration>=15?5:4;if(equipment==='none'){const a=rand(bodyweightMoves.combo),b=rand(bodyweightMoves.legs);return{format:`${blocks} work blocks`,text:`${blocks} rounds:
-
-60 sec ${a}
-60 sec ${b}
-30 sec rest`,tags:['bodyweight','intervals',partner?'friend-friendly':'solo-ready']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db);return{format:`${blocks} work blocks`,text:`${blocks} rounds:
-
-${cardio}
-${intensity==='spicy'?'12':'10'} ${db}
-45 sec rest`,tags:['hotel gym','intervals',partner?'friend-friendly':'solo-ready']};}
-function makePartnerWorkout(duration,equipment,intensity){if(equipment==='none'){const a=rand(bodyweightMoves.legs),b=rand(bodyweightMoves.push),c=rand(bodyweightMoves.core);return{format:`Partner AMRAP ${duration}`,text:`${duration}-minute partner AMRAP
-
-Partner A works while Partner B rests, then switch:
-${intensity==='spicy'?'14':'12'} ${a}
-${intensity==='spicy'?'10':'8'} ${b}
-${intensity==='spicy'?'16':'12'} ${c}`,tags:['bodyweight','partner','alternating']};}const cardio=rand(hotelMoves.cardio),db=rand(hotelMoves.db),floor=rand(hotelMoves.floor);return{format:`Partner AMRAP ${duration}`,text:`${duration}-minute partner AMRAP
-
-Partner A works while Partner B rests, then switch:
-${cardio}
-${intensity==='spicy'?'12':'10'} ${db}
-${intensity==='spicy'?'12':'10'} ${floor}`,tags:['hotel gym','partner','alternating']};}
-function generateWorkout(){const equipment=document.getElementById('equipmentMode').value,duration=document.getElementById('durationMode').value,style=document.getElementById('styleMode').value,intensity=document.getElementById('intensityMode').value;let workout;if(style==='partner')workout=makePartnerWorkout(duration,equipment,intensity);else workout=rand([makeAMRAP,makeEMOM,makeForTime,makeIntervals])(duration,equipment,style==='partner',intensity);document.getElementById('formatBadge').textContent=workout.format;document.getElementById('workoutText').textContent=workout.text;document.getElementById('coachNote').textContent=rand(coachNotes);const chips=document.getElementById('tagChips');chips.innerHTML='';workout.tags.forEach(tag=>{const el=document.createElement('div');el.className='chip';el.textContent=tag;chips.appendChild(el);});saveHotelState({equipment,duration,style,intensity,workout});}
-function hydrateHotelFromSaved(){const state=loadHotelState();if(state.equipment)document.getElementById('equipmentMode').value=state.equipment;if(state.duration)document.getElementById('durationMode').value=state.duration;if(state.style)document.getElementById('styleMode').value=state.style;if(state.intensity)document.getElementById('intensityMode').value=state.intensity;if(state.workout){document.getElementById('formatBadge').textContent=state.workout.format||'Ready';document.getElementById('workoutText').textContent=state.workout.text||'Tap generate.';const chips=document.getElementById('tagChips');chips.innerHTML='';(state.workout.tags||[]).forEach(tag=>{const el=document.createElement('div');el.className='chip';el.textContent=tag;chips.appendChild(el);});}}
-
-buildCalendar(); attachEvents(); loadState(); hydrateHotelFromSaved(); jumpToWeek(getCurrentWeekIndex());
+renderToolsStatic(); attach(); renderManage(); renderHome(); renderWeekView(); renderCycleView(); renderGuides(); renderStats(); renderArchive(); hydrateHotelFromSaved(); if(activeCycle()) jumpToWeek(getCurrentCycleWeekIndex(activeCycle()));
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./service-worker.js').catch(()=>{});});}
 </script>
 </body>

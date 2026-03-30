@@ -1,18 +1,24 @@
-# CrossFit Toolkit v2
 
-This GitHub-ready web app combines:
-- 12-week tracker
-- 12-week training plan
-- 12-week nutrition plan
-- hotel WOD generator
-- 2-week pull-up program
-- 2-week double-under program
+# CrossFit Toolkit v3
 
-New in v2:
-- easier week navigation with previous/next/current week controls
-- a more fun tracker dashboard with momentum and streaks
-- collapsing toolbar with separate views for each tool
-- export/import for tracker backups
+This GitHub-ready web app includes:
+- 8-week active cycle system
+- compact Home dashboard
+- Week and Cycle views
+- Workout and Nutrition guidance views
+- Hotel WOD Generator
+- Pull-Up and Double-Under tools
+- Archive view
+- Stats view with subtle weight tracking
+- cycle import/export backup
+- copyable cycle file spec and sample file download
+
+## Notes
+- Start dates are set in the app when you activate a cycle
+- Program JSON files stay reusable and date-agnostic
+- Starting a new cycle archives the old one without resetting streaks or global stats
+- Weight tracking is optional and collapsed by default on Home
+- Stats includes Trend and All Data graph modes
 
 ## GitHub Pages
 1. Create a new GitHub repository.

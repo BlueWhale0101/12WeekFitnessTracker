@@ -1,0 +1,3 @@
+This bundle includes a polished tiger app icon set in /icons.
+Manifest and HTML have already been updated for GitHub Pages / PWA deployment.
+For iPhone Home Screen installs, icon-180.png is referenced via apple-touch-icon.
