@@ -75,7 +75,8 @@ canvas{width:100%;max-width:100%;height:240px;border:1px solid var(--border);bor
 <section id="homeView" class="view active">
   <div class="card" style="background:linear-gradient(135deg, rgba(59,31,18,.96), rgba(234,88,12,.94)), url('icons/icon-512.png') right 18px center / 140px auto no-repeat; color:#fff; border:1px solid rgba(255,255,255,.08); box-shadow:0 10px 30px rgba(0,0,0,.32)">
     <h2 id="homeCycleTitle" style="color:#fff">No active cycle</h2>
-    <div id="homeCycleMeta" style="color:rgba(255,255,255,.88); font-size:.96rem">Import a cycle to get started.</div>
+    <div id="homeCycleWeek" style="color:#ffd7bf; font-weight:800; margin-top:2px">No active week</div>
+    <div id="homeCycleMeta" style="color:rgba(255,255,255,.88); font-size:.96rem; margin-top:6px">Import a cycle to get started.</div>
     <div class="progress-bar" style="background:rgba(0,0,0,.18); border-color:rgba(255,255,255,.12)"><div class="progress-fill" id="homeCycleFill"></div></div>
   </div>
   <div class="card">
@@ -329,6 +330,7 @@ function renderHome(){
   const c=activeCycle();
   if(!c){
     document.getElementById('homeCycleTitle').textContent='No active cycle';
+    document.getElementById('homeCycleWeek').textContent='No active week';
     document.getElementById('homeCycleMeta').textContent='Import a cycle to get started.';
     document.getElementById('homeCycleFill').style.width='0%';
     document.getElementById('homeStreak').textContent=(appState.profile.current_streak||0)+' days';
@@ -343,6 +345,7 @@ function renderHome(){
   currentWeekIndex=getCurrentCycleWeekIndex(c);
   const weekNum=currentWeekIndex+1, weekDef=c.program.weeks.find(w=>w.week_number===weekNum), weekState=getWeekState(c, weekNum), {start,end}=getCycleDates(c);
   document.getElementById('homeCycleTitle').textContent=c.title;
+  document.getElementById('homeCycleWeek').textContent=`Week ${weekNum} · ${weekDef.title}`;
   document.getElementById('homeCycleMeta').textContent=(c.program.cycle.description||`${fmtShort(start)} – ${fmtShort(end)}`);
   const pct=Math.round(((Math.min(c.program.cycle.duration_weeks*7, Math.max(0, daysBetween(start,new Date())+1)))/(c.program.cycle.duration_weeks*7))*100);
   document.getElementById('homeCycleFill').style.width=pct+'%';

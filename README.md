@@ -40,3 +40,5 @@ Latest home UI tweaks:
 - removed top app banner
 - cycle card now serves as top hero section with orange tiger theme
 - day completion check appears when class + nutrition are done or minimum day is checked
+
+- cycle hero now shows current week and week title
