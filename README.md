@@ -27,3 +27,10 @@ This GitHub-ready web app includes:
 4. Choose Deploy from a branch.
 5. Select main and /root.
 6. Wait for the live URL.
+
+
+Updated UI changes:
+- dark mode theme
+- settings view for infrequent actions
+- home subtitle now shows cycle description
+- activation start date width fixed for mobile
